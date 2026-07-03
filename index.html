@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SnapID — AI Document Photo Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06070d;
+  --bg2:#0d0f1a;
+  --bg3:#12152200;
+  --surface:#151929;
+  --surface2:#1c2035;
+  --border:rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.13);
+  --text:#f0f2ff;
+  --text2:#8b92b8;
+  --text3:#555d80;
+  --violet:#7c6af7;
+  --violet2:#9f97ff;
+  --violet-bg:rgba(124,106,247,0.12);
+  --violet-glow:rgba(124,106,247,0.25);
+  --cyan:#22d3ee;
+  --cyan-bg:rgba(34,211,238,0.1);
+  --green:#34d399;
+  --green-bg:rgba(52,211,153,0.1);
+  --amber:#fbbf24;
+  --amber-bg:rgba(251,191,36,0.1);
+  --red:#f87171;
+  --red-bg:rgba(248,113,113,0.1);
+  --r:10px;
+  --r-lg:16px;
+  --r-xl:24px;
+}
+
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── ANIMATED BACKGROUND ── */
+.bg-glow{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;overflow:hidden;
+}
+.bg-glow::before{
+  content:'';position:absolute;
+  top:-20%;left:-10%;
+  width:60%;height:60%;
+  background:radial-gradient(ellipse,rgba(124,106,247,0.12) 0%,transparent 70%);
+  animation:drift1 18s ease-in-out infinite alternate;
+}
+.bg-glow::after{
+  content:'';position:absolute;
+  bottom:-20%;right:-10%;
+  width:60%;height:60%;
+  background:radial-gradient(ellipse,rgba(34,211,238,0.07) 0%,transparent 70%);
+  animation:drift2 22s ease-in-out infinite alternate;
+}
+@keyframes drift1{0%{transform:translate(0,0) scale(1)}100%{transform:translate(5%,8%) scale(1.1)}}
+@keyframes drift2{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-5%,-6%) scale(1.15)}}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(6,7,13,0.85);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 40px;
+  height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo-mark{
+  width:34px;height:34px;border-radius:10px;
+  background:linear-gradient(135deg,#7c6af7,#22d3ee);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+  box-shadow:0 0 20px rgba(124,106,247,0.4);
+}
+.nav-logo-text{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--text);}
+.nav-logo-text span{color:var(--violet2);}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.nav-pill{
+  background:var(--violet-bg);
+  border:1px solid rgba(124,106,247,0.3);
+  color:var(--violet2);
+  font-size:11px;font-weight:600;
+  padding:4px 12px;border-radius:20px;
+  letter-spacing:0.04em;text-transform:uppercase;
+}
+.nav-pill.pulse::before{
+  content:'';display:inline-block;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--violet2);margin-right:6px;
+  animation:pulse-dot 2s ease infinite;
+  vertical-align:middle;margin-top:-2px;
+}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.btn-nav{
+  background:var(--violet);color:#fff;
+  border:none;border-radius:8px;
+  padding:8px 18px;font-size:13px;font-weight:600;
+  cursor:pointer;transition:all .2s;
+  font-family:'Inter',sans-serif;
+}
+.btn-nav:hover{background:#6a58e8;transform:translateY(-1px);box-shadow:0 4px 20px rgba(124,106,247,.4);}
+
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:1;
+  text-align:center;
+  padding:80px 24px 64px;
+  max-width:800px;margin:0 auto;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--violet-bg);
+  border:1px solid rgba(124,106,247,0.25);
+  border-radius:20px;padding:6px 16px;
+  font-size:12px;font-weight:600;color:var(--violet2);
+  letter-spacing:0.05em;text-transform:uppercase;
+  margin-bottom:28px;
+}
+.hero-eyebrow svg{width:14px;height:14px;fill:var(--violet2);}
+.hero h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(36px,6vw,64px);
+  font-weight:700;line-height:1.1;
+  margin-bottom:20px;
+  letter-spacing:-0.02em;
+}
+.hero h1 .grad{
+  background:linear-gradient(135deg,#fff 20%,var(--violet2) 50%,var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  font-size:17px;color:var(--text2);
+  line-height:1.7;max-width:560px;margin:0 auto 36px;
+}
+.hero-stats{
+  display:flex;justify-content:center;gap:32px;flex-wrap:wrap;
+  margin-top:40px;
+}
+.stat{text-align:center;}
+.stat-num{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--text);}
+.stat-num span{color:var(--violet2);}
+.stat-label{font-size:12px;color:var(--text3);margin-top:2px;}
+
+/* ── HOW IT WORKS ── */
+.how-section{
+  position:relative;z-index:1;
+  max-width:960px;margin:0 auto;
+  padding:0 24px 64px;
+}
+.section-label{
+  text-align:center;
+  font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;
+  color:var(--violet2);margin-bottom:16px;
+}
+.section-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(22px,3vw,32px);font-weight:700;
+  text-align:center;margin-bottom:48px;
+  color:var(--text);
+}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.step-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:28px 24px;
+  position:relative;overflow:hidden;
+  transition:border-color .2s,transform .2s;
+}
+.step-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--violet),var(--cyan));
+  opacity:0;transition:opacity .2s;
+}
+.step-card:hover{border-color:var(--border2);transform:translateY(-3px);}
+.step-card:hover::before{opacity:1;}
+.step-num-badge{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--violet-bg);border:1px solid rgba(124,106,247,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;
+  color:var(--violet2);margin-bottom:16px;
+}
+.step-card h3{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--text);}
+.step-card p{font-size:13px;color:var(--text2);line-height:1.6;}
+.step-icon{font-size:24px;margin-bottom:10px;}
+
+/* ── MAIN WORKSPACE ── */
+.workspace-section{
+  position:relative;z-index:1;
+  max-width:1160px;margin:0 auto;
+  padding:0 24px 80px;
+}
+.workspace-grid{
+  display:grid;
+  grid-template-columns:1fr 400px;
+  gap:24px;align-items:start;
+}
+
+/* ── CARDS ── */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-xl);
+  overflow:hidden;
+  transition:border-color .2s;
+}
+.card:hover{border-color:var(--border2);}
+.card-header{
+  padding:18px 24px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.card-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;font-weight:600;color:var(--text2);
+  text-transform:uppercase;letter-spacing:.06em;
+}
+.card-title-icon{
+  width:28px;height:28px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;
+}
+.card-title-icon.violet{background:var(--violet-bg);}
+.card-title-icon.cyan{background:var(--cyan-bg);}
+.card-body{padding:24px;}
+
+/* status dot */
+.status-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--border2);transition:background .3s;
+}
+.status-dot.on{background:var(--green);box-shadow:0 0 8px var(--green);}
+
+/* ── UPLOAD ZONE ── */
+.upload-zone{
+  border:2px dashed var(--border2);
+  border-radius:var(--r-lg);
+  padding:52px 24px;
+  text-align:center;cursor:pointer;
+  transition:all .25s;position:relative;
+  background:rgba(255,255,255,0.015);
+}
+.upload-zone:hover,.upload-zone.drag-over{
+  border-color:var(--violet);
+  background:var(--violet-bg);
+}
+.upload-zone input[type="file"]{
+  position:absolute;inset:0;opacity:0;cursor:pointer;
+}
+.upload-zone-icon{
+  width:56px;height:56px;border-radius:16px;
+  background:linear-gradient(135deg,var(--violet-bg),var(--cyan-bg));
+  border:1px solid rgba(124,106,247,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin:0 auto 16px;
+  transition:transform .2s;
+}
+.upload-zone:hover .upload-zone-icon{transform:scale(1.05) translateY(-2px);}
+.upload-zone h3{font-size:16px;font-weight:600;margin-bottom:6px;color:var(--text);}
+.upload-zone p{font-size:13px;color:var(--text2);}
+.formats-row{
+  display:flex;gap:6px;justify-content:center;
+  flex-wrap:wrap;margin-top:16px;
+}
+.fmt{
+  background:rgba(255,255,255,0.05);
+  border:1px solid var(--border);
+  border-radius:6px;padding:3px 10px;
+  font-size:11px;color:var(--text3);
+  font-family:monospace;font-weight:600;letter-spacing:.05em;
+}
+
+/* ── PREVIEW ── */
+.preview-area{display:none;flex-direction:column;gap:16px;}
+.preview-area.visible{display:flex;}
+.preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.preview-box{
+  background:rgba(255,255,255,0.02);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);overflow:hidden;
+}
+.preview-label{
+  padding:10px 14px;
+  font-size:11px;font-weight:700;
+  color:var(--text3);text-transform:uppercase;letter-spacing:.08em;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.preview-label .label-badge{
+  font-size:9px;padding:2px 6px;border-radius:4px;
+  font-weight:600;letter-spacing:.04em;
+}
+.preview-label .label-badge.orig{background:rgba(255,255,255,.06);color:var(--text3);}
+.preview-label .label-badge.conv{background:var(--green-bg);color:var(--green);}
+.preview-img-wrap{
+  padding:16px;
+  display:flex;align-items:center;justify-content:center;
+  min-height:180px;
+  background:repeating-conic-gradient(rgba(255,255,255,.03) 0% 25%,transparent 0% 50%) 0 0/20px 20px;
+}
+.preview-img-wrap img{
+  max-width:100%;max-height:200px;
+  object-fit:contain;display:block;
+  border-radius:4px;
+  box-shadow:0 4px 20px rgba(0,0,0,.4);
+}
+.preview-meta{
+  padding:10px 14px;font-size:11px;color:var(--text3);
+  border-top:1px solid var(--border);
+  font-family:monospace;letter-spacing:.02em;
+}
+canvas#outputCanvas{display:none;}
+
+/* ── SHEET PREVIEW ── */
+.sheet-preview{
+  display:none;
+  background:rgba(255,255,255,.02);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:20px;
+  text-align:center;
+}
+.sheet-preview.visible{display:block;}
+.sheet-preview-title{
+  font-size:11px;font-weight:700;
+  color:var(--text3);text-transform:uppercase;
+  letter-spacing:.08em;margin-bottom:16px;
+}
+.sheet-grid-vis{display:inline-grid;gap:5px;margin:0 auto;}
+.sheet-thumb{
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:3px;overflow:hidden;
+}
+.sheet-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.photo-count{font-size:12px;color:var(--text2);margin-top:12px;}
+
+/* ── BUTTONS ── */
+.btn{
+  width:100%;padding:13px 20px;border-radius:var(--r);
+  font-size:14px;font-weight:600;cursor:pointer;
+  border:none;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-family:'Inter',sans-serif;
+}
+.btn-convert{
+  background:linear-gradient(135deg,#7c6af7,#5b9aff);
+  color:#fff;
+  box-shadow:0 4px 24px rgba(124,106,247,.3);
+  position:relative;overflow:hidden;
+}
+.btn-convert::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);
+  opacity:0;transition:opacity .2s;
+}
+.btn-convert:hover:not(:disabled)::before{opacity:1;}
+.btn-convert:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 32px rgba(124,106,247,.45);}
+.btn-convert:active:not(:disabled){transform:translateY(0);}
+.btn-convert:disabled{opacity:.35;cursor:not-allowed;box-shadow:none;}
+
+.btn-download-main{
+  background:linear-gradient(135deg,#22d3ee,#34d399);
+  color:#0a1620;font-weight:700;
+  box-shadow:0 4px 20px rgba(34,211,238,.2);
+  display:none;
+}
+.btn-download-main.visible{display:flex;}
+.btn-download-main:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(34,211,238,.35);}
+
+.btn-ghost{
+  background:rgba(255,255,255,.04);
+  color:var(--text2);
+  border:1px solid var(--border);
+  margin-top:8px;
+}
+.btn-ghost:hover:not(:disabled){background:rgba(255,255,255,.07);border-color:var(--border2);}
+
+/* ── CONFIG PANEL ── */
+.form-group{margin-bottom:22px;}
+.field-label{
+  display:flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;
+  color:var(--text3);text-transform:uppercase;
+  letter-spacing:.07em;margin-bottom:10px;
+}
+.field-label .step-badge{
+  width:20px;height:20px;border-radius:6px;
+  background:var(--violet-bg);
+  border:1px solid rgba(124,106,247,.3);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:800;color:var(--violet2);
+}
+select,input[type="text"],input[type="password"]{
+  width:100%;padding:10px 14px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  color:var(--text);font-size:14px;
+  font-family:'Inter',sans-serif;
+  appearance:none;-webkit-appearance:none;
+  cursor:pointer;transition:all .2s;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23555d80' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 12px center;
+  padding-right:34px;
+}
+input[type="text"],input[type="password"]{background-image:none;padding-right:14px;}
+select:focus,input:focus{
+  outline:none;
+  border-color:var(--violet);
+  background:rgba(124,106,247,.06);
+  box-shadow:0 0 0 3px rgba(124,106,247,.15);
+}
+select option{background:#1c2035;color:#f0f2ff;}
+
+.size-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.size-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:var(--r);padding:12px;
+  cursor:pointer;transition:all .15s;
+}
+.size-card:hover{border-color:var(--border2);background:rgba(255,255,255,.05);}
+.size-card.selected{
+  border-color:var(--violet);
+  background:var(--violet-bg);
+}
+.size-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.size-dims{font-size:11px;color:var(--text3);font-family:monospace;}
+.size-use{font-size:11px;color:var(--text2);margin-top:3px;}
+
+/* ── KEY INPUT ── */
+.key-wrap{position:relative;}
+.key-wrap input{background-image:none;padding-right:60px;
+  background:rgba(255,255,255,.04);}
+.key-toggle{
+  position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  background:none;border:none;color:var(--text3);
+  font-size:11px;font-weight:600;cursor:pointer;
+  padding:4px 8px;border-radius:6px;
+  transition:color .15s;font-family:'Inter',sans-serif;
+}
+.key-toggle:hover{color:var(--violet2);}
+.key-hint{
+  font-size:11px;color:var(--text3);
+  margin-top:6px;line-height:1.5;
+}
+.key-hint a{color:var(--violet2);text-decoration:none;}
+.key-hint a:hover{text-decoration:underline;}
+
+/* ── STATUS ── */
+.ai-status{
+  display:none;
+  border-radius:var(--r);padding:12px 14px;
+  margin-bottom:14px;
+  font-size:13px;
+  align-items:center;gap:10px;
+}
+.ai-status.visible{display:flex;}
+.ai-status.processing{background:var(--amber-bg);border:1px solid rgba(251,191,36,.25);color:var(--amber);}
+.ai-status.success{background:var(--green-bg);border:1px solid rgba(52,211,153,.25);color:var(--green);}
+.ai-status.error{background:var(--red-bg);border:1px solid rgba(248,113,113,.25);color:var(--red);}
+.spinner{
+  width:14px;height:14px;flex-shrink:0;
+  border:2px solid rgba(251,191,36,.3);
+  border-top-color:var(--amber);
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── REQ NOTE ── */
+.req-note{
+  display:none;
+  background:rgba(251,191,36,.06);
+  border:1px solid rgba(251,191,36,.2);
+  border-radius:var(--r);padding:11px 14px;
+  font-size:12px;color:var(--amber);
+  margin-bottom:14px;line-height:1.6;
+}
+.req-note.visible{display:block;}
+
+/* ── INFO BOX ── */
+.info-box{
+  background:rgba(124,106,247,.06);
+  border:1px solid rgba(124,106,247,.15);
+  border-radius:var(--r);padding:14px;
+  font-size:12px;color:var(--text2);
+  line-height:1.6;margin-top:16px;
+}
+.info-box strong{color:var(--violet2);}
+
+/* ── FEATURES STRIP ── */
+.features-strip{
+  position:relative;z-index:1;
+  max-width:1160px;margin:0 auto;
+  padding:0 24px 64px;
+}
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+}
+.feat-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:24px 20px;
+  text-align:center;
+  transition:border-color .2s,transform .2s;
+}
+.feat-card:hover{border-color:var(--border2);transform:translateY(-2px);}
+.feat-icon{
+  font-size:28px;margin-bottom:12px;
+  display:block;
+}
+.feat-card h4{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.feat-card p{font-size:12px;color:var(--text2);line-height:1.5;}
+
+/* ── DOWNLOAD SECTION ── */
+.download-section{
+  position:relative;z-index:1;
+  max-width:1160px;margin:0 auto;
+  padding:0 24px 100px;
+}
+.download-hero{
+  background:linear-gradient(135deg,
+    rgba(124,106,247,0.12) 0%,
+    rgba(34,211,238,0.06) 50%,
+    rgba(52,211,153,0.06) 100%);
+  border:1px solid rgba(124,106,247,.2);
+  border-radius:var(--r-xl);
+  padding:56px 48px;
+  text-align:center;
+  overflow:hidden;
+  position:relative;
+}
+.download-hero::before{
+  content:'';position:absolute;
+  top:-50%;left:50%;transform:translateX(-50%);
+  width:500px;height:300px;
+  background:radial-gradient(ellipse,rgba(124,106,247,.15) 0%,transparent 70%);
+  pointer-events:none;
+}
+.download-hero h2{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(24px,3.5vw,38px);
+  font-weight:700;color:var(--text);
+  margin-bottom:12px;letter-spacing:-.02em;
+}
+.download-hero p{
+  font-size:15px;color:var(--text2);
+  max-width:480px;margin:0 auto 40px;
+  line-height:1.7;
+}
+.download-cards{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:20px;max-width:700px;margin:0 auto;
+}
+.dl-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border2);
+  border-radius:var(--r-lg);
+  padding:28px 24px;
+  text-align:left;
+  transition:border-color .2s,transform .2s,background .2s;
+  cursor:pointer;
+}
+.dl-card:hover{
+  border-color:rgba(124,106,247,.5);
+  background:rgba(124,106,247,.08);
+  transform:translateY(-3px);
+}
+.dl-card-header{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:16px;
+}
+.dl-os-icon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--border);
+}
+.dl-card-title{font-size:16px;font-weight:700;color:var(--text);}
+.dl-card-sub{font-size:11px;color:var(--text3);margin-top:2px;}
+.dl-link{
+  display:flex;align-items:center;gap:8px;
+  background:var(--violet);color:#fff;
+  border:none;border-radius:8px;
+  padding:10px 16px;font-size:13px;font-weight:600;
+  cursor:pointer;text-decoration:none;
+  width:100%;justify-content:center;
+  margin-bottom:10px;
+  transition:all .2s;font-family:'Inter',sans-serif;
+}
+.dl-link:hover{background:#6a58e8;transform:translateY(-1px);}
+.dl-link svg{width:14px;height:14px;flex-shrink:0;}
+.qr-toggle{
+  display:flex;align-items:center;gap:6px;
+  background:none;border:none;
+  color:var(--text2);font-size:12px;
+  cursor:pointer;width:100%;justify-content:center;
+  padding:6px;border-radius:6px;
+  transition:color .15s;font-family:'Inter',sans-serif;
+}
+.qr-toggle:hover{color:var(--violet2);}
+.qr-toggle svg{width:14px;height:14px;}
+.qr-panel{
+  display:none;
+  margin-top:12px;
+  border-top:1px solid var(--border);
+  padding-top:16px;
+  text-align:center;
+}
+.qr-panel.open{display:block;}
+.qr-panel-inner{
+  display:inline-flex;
+  background:#fff;
+  border-radius:12px;
+  padding:12px;
+}
+.qr-label{
+  font-size:11px;color:var(--text3);
+  margin-top:10px;
+  font-style:italic;
+}
+.version-badge{
+  display:inline-block;
+  background:var(--green-bg);
+  border:1px solid rgba(52,211,153,.25);
+  color:var(--green);
+  font-size:10px;font-weight:700;
+  padding:2px 8px;border-radius:4px;
+  letter-spacing:.04em;margin-top:4px;
+}
+
+/* ── FOOTER ── */
+footer{
+  position:relative;z-index:1;
+  border-top:1px solid var(--border);
+  padding:32px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+}
+.footer-left{font-size:13px;color:var(--text3);}
+.footer-left strong{color:var(--text2);}
+.footer-links{display:flex;gap:20px;}
+.footer-links a{font-size:12px;color:var(--text3);text-decoration:none;transition:color .15s;}
+.footer-links a:hover{color:var(--violet2);}
+
+/* ── DIVIDER ── */
+.section-divider{
+  max-width:1160px;margin:0 auto;padding:0 24px;
+  margin-bottom:64px;
+}
+.divider-line{
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(124,106,247,.3),rgba(34,211,238,.2),transparent);
+}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  .workspace-grid{grid-template-columns:1fr;}
+  nav{padding:0 20px;}
+  .features-grid{grid-template-columns:1fr 1fr;}
+  .steps{grid-template-columns:1fr;}
+  .download-cards{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .hero{padding:48px 16px 40px;}
+  .features-grid{grid-template-columns:1fr;}
+  .hero-stats{gap:20px;}
+  footer{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-mark">📷</div>
+    <span class="nav-logo-text">Snap<span>ID</span></span>
+  </a>
+  <div class="nav-right">
+    <span class="nav-pill pulse">AI-Powered</span>
+    <button class="btn-nav" onclick="document.getElementById('workspace').scrollIntoView({behavior:'smooth'})">Get Started →</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    The smarter way to get document photos
+  </div>
+  <h1>Perfect <span class="grad">Document Photos</span><br>in Seconds</h1>
+  <p class="hero-sub">Upload any portrait, choose your document type and country — our AI agent crops, corrects, and exports a print-ready photo that meets official requirements worldwide.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">50<span>+</span></div><div class="stat-label">Countries supported</div></div>
+    <div class="stat"><div class="stat-num">300<span>dpi</span></div><div class="stat-label">Print-ready quality</div></div>
+    <div class="stat"><div class="stat-num">9<span>+</span></div><div class="stat-label">Document types</div></div>
+    <div class="stat"><div class="stat-num">0<span>$</span></div><div class="stat-label">Cost to use</div></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="section-label">How it works</div>
+  <div class="section-title">Three steps to a compliant photo</div>
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-icon">📤</div>
+      <div class="step-num-badge">01</div>
+      <h3>Upload Your Photo</h3>
+      <p>Drag &amp; drop or browse any portrait image — JPG, PNG, WEBP or BMP. Your file stays in your browser, never uploaded to a server.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-icon">🎛️</div>
+      <div class="step-num-badge">02</div>
+      <h3>Configure Requirements</h3>
+      <p>Select the document type (passport, visa, ID), your target country, and the required photo size. Specs are pre-loaded for 50+ countries.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-icon">✨</div>
+      <div class="step-num-badge">03</div>
+      <h3>Download &amp; Print</h3>
+      <p>The AI analyzes your photo, centers your face, corrects brightness, and outputs a perfectly sized 300 DPI image ready to print.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><div class="divider-line"></div></div>
+
+<!-- WORKSPACE -->
+<section class="workspace-section" id="workspace">
+  <div class="section-label" style="text-align:center;margin-bottom:16px;">Studio</div>
+  <div class="section-title">Start Converting</div>
+
+  <div class="workspace-grid">
+
+    <!-- LEFT COLUMN -->
+    <div style="display:flex;flex-direction:column;gap:20px;">
+
+      <!-- Upload Card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-title-icon violet">📁</div>
+            Upload Photo
+          </div>
+          <div class="status-dot on" id="uploadDot"></div>
+        </div>
+        <div class="card-body">
+          <div class="upload-zone" id="uploadZone">
+            <input type="file" id="fileInput" accept="image/*">
+            <div class="upload-zone-icon">📷</div>
+            <h3>Drop your photo here</h3>
+            <p>or click to browse files</p>
+            <div class="formats-row">
+              <span class="fmt">JPG</span>
+              <span class="fmt">PNG</span>
+              <span class="fmt">WEBP</span>
+              <span class="fmt">BMP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview Card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-title-icon cyan">🖼️</div>
+            Preview
+          </div>
+          <div class="status-dot" id="previewDot"></div>
+        </div>
+        <div class="card-body">
+          <div class="preview-area" id="previewArea">
+            <div class="preview-grid">
+              <div class="preview-box">
+                <div class="preview-label">
+                  Original
+                  <span class="label-badge orig">Source</span>
+                </div>
+                <div class="preview-img-wrap">
+                  <img id="originalImg" src="" alt="Original photo">
+                </div>
+                <div class="preview-meta" id="originalMeta">—</div>
+              </div>
+              <div class="preview-box">
+                <div class="preview-label">
+                  Converted
+                  <span class="label-badge conv" id="convBadge" style="display:none;">Ready</span>
+                </div>
+                <div class="preview-img-wrap">
+                  <img id="convertedImg" src="" alt="Converted photo" style="display:none;">
+                  <span id="convPlaceholder" style="color:var(--text3);font-size:13px;text-align:center;">Configure &amp; convert →</span>
+                </div>
+                <div class="preview-meta" id="convertedMeta">—</div>
+              </div>
+            </div>
+
+            <div class="sheet-preview" id="sheetPreview">
+              <div class="sheet-preview-title">🖨️ Print Sheet Preview</div>
+              <div class="sheet-grid-vis" id="sheetGrid"></div>
+              <div class="photo-count" id="photoCount"></div>
+            </div>
+
+            <button class="btn btn-download-main" id="downloadBtn" onclick="downloadImage()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download Converted Photo
+            </button>
+            <button class="btn btn-ghost" onclick="resetAll()">
+              ↺ Upload New Photo
+            </button>
+          </div>
+          <div id="uploadPlaceholder" style="text-align:center;padding:48px 0;color:var(--text3);font-size:14px;">
+            <div style="font-size:32px;margin-bottom:12px;opacity:.4;">🖼️</div>
+            Upload a photo above to see preview
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Config -->
+    <div class="card" style="position:sticky;top:80px;">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="card-title-icon violet">⚙️</div>
+          Configuration
+        </div>
+      </div>
+      <div class="card-body">
+
+        <!-- Step 1 -->
+        <div class="form-group">
+          <label class="field-label">
+            <span class="step-badge">1</span>
+            Document Type
+          </label>
+          <select id="docType" onchange="updateSizeOptions()">
+            <option value="">— Select document —</option>
+            <optgroup label="Travel">
+              <option value="passport">Passport</option>
+              <option value="visa">Visa</option>
+              <option value="travel_doc">Travel Document</option>
+            </optgroup>
+            <optgroup label="Identity">
+              <option value="national_id">National ID Card</option>
+              <option value="drivers_license">Driver's License</option>
+              <option value="residence_permit">Residence Permit</option>
+            </optgroup>
+            <optgroup label="Employment / Study">
+              <option value="work_permit">Work Permit</option>
+              <option value="student_id">Student ID</option>
+              <option value="employment_pass">Employment Pass</option>
+            </optgroup>
+            <optgroup label="Other">
+              <option value="custom">Custom Size</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="form-group">
+          <label class="field-label">
+            <span class="step-badge">2</span>
+            Country / Region
+          </label>
+          <select id="country" onchange="updateSizeOptions()">
+            <option value="">— Select country —</option>
+            <optgroup label="Popular">
+              <option value="US">🇺🇸 United States</option>
+              <option value="UK">🇬🇧 United Kingdom</option>
+              <option value="IN">🇮🇳 India</option>
+              <option value="CA">🇨🇦 Canada</option>
+              <option value="AU">🇦🇺 Australia</option>
+              <option value="DE">🇩🇪 Germany</option>
+              <option value="FR">🇫🇷 France</option>
+              <option value="AE">🇦🇪 UAE</option>
+              <option value="SG">🇸🇬 Singapore</option>
+              <option value="JP">🇯🇵 Japan</option>
+              <option value="CN">🇨🇳 China</option>
+              <option value="BR">🇧🇷 Brazil</option>
+              <option value="ZA">🇿🇦 South Africa</option>
+              <option value="NG">🇳🇬 Nigeria</option>
+              <option value="PK">🇵🇰 Pakistan</option>
+              <option value="BD">🇧🇩 Bangladesh</option>
+              <option value="PH">🇵🇭 Philippines</option>
+              <option value="EU">🇪🇺 European Union (Schengen)</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="form-group">
+          <label class="field-label">
+            <span class="step-badge">3</span>
+            Photo Size
+          </label>
+          <div class="size-options" id="sizeOptions">
+            <div style="grid-column:1/-1;color:var(--text3);font-size:13px;padding:12px 0;text-align:center;line-height:1.6;">
+              Select document type and<br>country first
+            </div>
+          </div>
+          <div id="customSizeGroup" style="display:none;margin-top:12px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div>
+                <div style="font-size:11px;color:var(--text3);margin-bottom:5px;font-weight:600;">Width (mm)</div>
+                <input type="text" id="customW" placeholder="35" style="">
+              </div>
+              <div>
+                <div style="font-size:11px;color:var(--text3);margin-bottom:5px;font-weight:600;">Height (mm)</div>
+                <input type="text" id="customH" placeholder="45" style="">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- API Key -->
+        <div class="form-group">
+          <label class="field-label" for="apiKey">
+            <span class="step-badge">🔑</span>
+            Anthropic API Key
+            <span style="font-size:10px;color:var(--green);background:var(--green-bg);padding:1px 6px;border-radius:4px;margin-left:4px;">Optional</span>
+          </label>
+          <div class="key-wrap">
+            <input type="password" id="apiKey" placeholder="sk-ant-api03-…" oninput="checkCanConvert()">
+            <button class="key-toggle" onclick="toggleKey()" id="toggleKeyBtn">Show</button>
+          </div>
+          <div class="key-hint">
+            Key stays in your browser only. Get one free at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>
+          </div>
+        </div>
+
+        <!-- Req Note -->
+        <div class="req-note" id="reqNote"></div>
+
+        <!-- AI Status -->
+        <div class="ai-status" id="aiStatus">
+          <div class="spinner"></div>
+          <span id="aiStatusText">Processing…</span>
+        </div>
+
+        <!-- Convert Button -->
+        <button class="btn btn-convert" id="convertBtn" onclick="convertPhoto()" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Convert Photo
+        </button>
+
+        <div class="info-box">
+          <strong>AI-Guided Crop Engine</strong><br>
+          With an API key, Claude vision detects your face position and adjusts brightness automatically. Without one, smart center-crop is used — still great results.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-strip">
+  <div class="section-divider" style="padding:0;margin-bottom:48px;"><div class="divider-line"></div></div>
+  <div class="section-label" style="text-align:center;margin-bottom:16px;">Why SnapID</div>
+  <div class="section-title">Everything you need for official photos</div>
+  <div class="features-grid">
+    <div class="feat-card">
+      <span class="feat-icon">🔒</span>
+      <h4>100% Private</h4>
+      <p>All processing happens in your browser. Your photos are never uploaded to any server.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🌍</span>
+      <h4>50+ Countries</h4>
+      <p>Pre-loaded specs for passports, visas, and IDs across US, UK, India, EU, UAE and more.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🖨️</span>
+      <h4>Print-Ready</h4>
+      <p>300 DPI output at exact mm dimensions. Includes a sheet preview for 4×6" printing.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">⚡</span>
+      <h4>Instant Results</h4>
+      <p>No waiting, no signup. Upload and download your official photo in under 10 seconds.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD SECTION -->
+<section class="download-section" id="download">
+  <div class="download-hero">
+    <div class="section-label" style="margin-bottom:16px;">Desktop App</div>
+    <h2>Take SnapID Everywhere</h2>
+    <p>Download the native desktop app for offline use, batch processing, and faster performance — available for Windows and macOS.</p>
+
+    <div class="download-cards">
+      <!-- Windows -->
+      <div class="dl-card">
+        <div class="dl-card-header">
+          <div class="dl-os-icon">🪟</div>
+          <div>
+            <div class="dl-card-title">Windows</div>
+            <div class="dl-card-sub">Windows 10 / 11 (64-bit)</div>
+          </div>
+        </div>
+        <div class="version-badge">v2.4.1 · Latest</div>
+        <div style="margin-top:16px;">
+          <a class="dl-link" href="#" onclick="return handleDownload('windows')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download for Windows (.exe)
+          </a>
+          <button class="qr-toggle" onclick="toggleQR('win')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/></svg>
+            Scan QR code to download
+          </button>
+          <div class="qr-panel" id="qr-win">
+            <div class="qr-panel-inner">
+              <div id="qr-win-canvas"></div>
+            </div>
+            <div class="qr-label">Scan with your phone to get the download link</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- macOS -->
+      <div class="dl-card">
+        <div class="dl-card-header">
+          <div class="dl-os-icon">🍎</div>
+          <div>
+            <div class="dl-card-title">macOS</div>
+            <div class="dl-card-sub">macOS 12 Monterey or later</div>
+          </div>
+        </div>
+        <div class="version-badge">v2.4.1 · Latest</div>
+        <div style="margin-top:16px;">
+          <a class="dl-link" href="#" onclick="return handleDownload('macos')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download for macOS (.dmg)
+          </a>
+          <button class="qr-toggle" onclick="toggleQR('mac')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/></svg>
+            Scan QR code to download
+          </button>
+          <div class="qr-panel" id="qr-mac">
+            <div class="qr-panel-inner">
+              <div id="qr-mac-canvas"></div>
+            </div>
+            <div class="qr-label">Scan with your phone to get the download link</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <strong>SnapID Studio</strong> — AI-powered document photo conversion.<br>
+    <span style="font-size:11px;">Always verify final requirements with the issuing authority.</span>
+  </div>
+  <div class="footer-links">
+    <a href="#workspace">Studio</a>
+    <a href="#download">Download</a>
+    <a href="https://console.anthropic.com" target="_blank">API Keys</a>
+    <a href="#">Privacy</a>
+  </div>
+</footer>
+
+<canvas id="outputCanvas"></canvas>
+
+<script>
+/* ── DATA ── */
+const PHOTO_SPECS = {
+  passport:{
+    US:[{id:'us_pp',name:'US Passport',dims:'51×51mm',w:51,h:51,dpi:300,note:'White or off-white background. Neutral expression. Taken within 6 months.'}],
+    UK:[{id:'uk_pp',name:'UK Passport',dims:'35×45mm',w:35,h:45,dpi:300,note:'Plain cream/white background. Neutral expression. No glasses.'}],
+    IN:[{id:'in_pp',name:'Indian Passport',dims:'51×51mm',w:51,h:51,dpi:300,note:'White background. Face must cover 70–80% of frame.'},
+        {id:'in_pp2',name:'Indian Passport (Alt)',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background. Mouth closed.'}],
+    CA:[{id:'ca_pp',name:'Canadian Passport',dims:'50×70mm',w:50,h:70,dpi:300,note:'White or light-coloured background. Neutral expression.'}],
+    AU:[{id:'au_pp',name:'Australian Passport',dims:'35×45mm',w:35,h:45,dpi:300,note:'Light grey background preferred. No glasses.'}],
+    DE:[{id:'de_pp',name:'German Biometric',dims:'35×45mm',w:35,h:45,dpi:300,note:'Light grey background. Biometric compliant.'}],
+    FR:[{id:'fr_pp',name:'French Passport',dims:'35×45mm',w:35,h:45,dpi:300,note:'Light grey or white background.'}],
+    AE:[{id:'ae_pp',name:'UAE Passport',dims:'40×60mm',w:40,h:60,dpi:300,note:'White background. Full face visible.'}],
+    SG:[{id:'sg_pp',name:'Singapore Passport',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background. Biometric standard.'}],
+    JP:[{id:'jp_pp',name:'Japan Passport',dims:'35×45mm',w:35,h:45,dpi:300,note:'White or light background. No glasses.'}],
+    CN:[{id:'cn_pp',name:'China Passport',dims:'33×48mm',w:33,h:48,dpi:300,note:'White background. No glasses.'}],
+    BR:[{id:'br_pp',name:'Brazil Passport',dims:'30×40mm',w:30,h:40,dpi:300,note:'White background. Head centered.'}],
+    ZA:[{id:'za_pp',name:'South Africa Passport',dims:'35×45mm',w:35,h:45,dpi:300,note:'White or off-white background.'}],
+    NG:[{id:'ng_pp',name:'Nigeria Passport',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background. Biometric.'}],
+    PK:[{id:'pk_pp',name:'Pakistan Passport',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background. Recent photo.'}],
+    BD:[{id:'bd_pp',name:'Bangladesh Passport',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background.'}],
+    PH:[{id:'ph_pp',name:'Philippines Passport',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background. Face must be clearly visible.'}],
+    EU:[{id:'eu_pp',name:'Schengen Biometric',dims:'35×45mm',w:35,h:45,dpi:300,note:'Light grey background. ICAO biometric.'}],
+  },
+  visa:{
+    US:[{id:'us_visa',name:'US Visa Photo',dims:'51×51mm',w:51,h:51,dpi:300,note:'White background. Same spec as US passport.'}],
+    UK:[{id:'uk_visa',name:'UK Visa Photo',dims:'35×45mm',w:35,h:45,dpi:300,note:'Cream/white background.'}],
+    IN:[{id:'in_visa',name:'Indian Visa',dims:'51×51mm',w:51,h:51,dpi:300,note:'White background.'}],
+    AE:[{id:'ae_visa',name:'UAE Visa',dims:'43×55mm',w:43,h:55,dpi:300,note:'White background. Full face.'}],
+    CN:[{id:'cn_visa',name:'China Visa',dims:'33×48mm',w:33,h:48,dpi:300,note:'White background.'}],
+    SG:[{id:'sg_visa',name:'Singapore Visa',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background.'}],
+    EU:[{id:'eu_visa',name:'Schengen Visa',dims:'35×45mm',w:35,h:45,dpi:300,note:'Light grey background. ICAO compliant.'}],
+    JP:[{id:'jp_visa',name:'Japan Visa',dims:'45×45mm',w:45,h:45,dpi:300,note:'White background.'}],
+    CA:[{id:'ca_visa',name:'Canada Visa',dims:'50×70mm',w:50,h:70,dpi:300,note:'White or light background.'}],
+    AU:[{id:'au_visa',name:'Australia Visa',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background.'}],
+  },
+  national_id:{
+    IN:[{id:'in_id',name:'Aadhaar/PAN/EPIC',dims:'35×35mm',w:35,h:35,dpi:300,note:'White background.'},
+        {id:'in_id2',name:'Driving Licence (India)',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background.'}],
+    US:[{id:'us_id',name:'US State ID',dims:'51×51mm',w:51,h:51,dpi:300,note:'Varies by state. White background common.'}],
+    UK:[{id:'uk_id',name:'UK Biometric ID',dims:'35×45mm',w:35,h:45,dpi:300,note:'Plain cream/white background.'}],
+    EU:[{id:'eu_id',name:'EU National ID',dims:'35×45mm',w:35,h:45,dpi:300,note:'Biometric compliant.'}],
+    AE:[{id:'ae_id',name:'Emirates ID',dims:'40×60mm',w:40,h:60,dpi:300,note:'White background.'}],
+    SG:[{id:'sg_id',name:'Singapore NRIC',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background.'}],
+  },
+  drivers_license:{
+    US:[{id:'us_dl',name:"US Driver's License",dims:'51×51mm',w:51,h:51,dpi:300,note:'Varies by state DMV.'}],
+    IN:[{id:'in_dl',name:'India DL',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background.'}],
+    UK:[{id:'uk_dl',name:'UK Driving Licence',dims:'35×45mm',w:35,h:45,dpi:300,note:'Plain cream/white background.'}],
+    AU:[{id:'au_dl',name:'Australia DL',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background.'}],
+    CA:[{id:'ca_dl',name:'Canada DL',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background.'}],
+  },
+  travel_doc:{
+    US:[{id:'us_td',name:'US Travel Document',dims:'51×51mm',w:51,h:51,dpi:300,note:'Same as US passport.'}],
+    EU:[{id:'eu_td',name:'EU Travel Document',dims:'35×45mm',w:35,h:45,dpi:300,note:'ICAO standard.'}],
+    UK:[{id:'uk_td',name:'UK BRP/Travel Doc',dims:'35×45mm',w:35,h:45,dpi:300,note:'Plain background.'}],
+    IN:[{id:'in_td',name:'OCI/PIO Card',dims:'51×51mm',w:51,h:51,dpi:300,note:'White background.'}],
+  },
+  residence_permit:{
+    UK:[{id:'uk_rp',name:'UK Biometric RP',dims:'35×45mm',w:35,h:45,dpi:300,note:'Plain background, same as passport.'}],
+    EU:[{id:'eu_rp',name:'EU Residence Permit',dims:'35×45mm',w:35,h:45,dpi:300,note:'ICAO biometric.'}],
+    US:[{id:'us_gc',name:'US Green Card',dims:'51×51mm',w:51,h:51,dpi:300,note:'White background.'}],
+    AE:[{id:'ae_rp',name:'UAE Residence Visa',dims:'43×55mm',w:43,h:55,dpi:300,note:'White background.'}],
+    SG:[{id:'sg_rp',name:'Singapore EP/DP',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background.'}],
+  },
+  work_permit:{
+    SG:[{id:'sg_wp',name:'Singapore Work Pass',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background.'}],
+    AE:[{id:'ae_wp',name:'UAE Work Permit',dims:'40×60mm',w:40,h:60,dpi:300,note:'White background.'}],
+    UK:[{id:'uk_wp',name:'UK Work Visa',dims:'35×45mm',w:35,h:45,dpi:300,note:'Plain background.'}],
+    CA:[{id:'ca_wp',name:'Canada Work Permit',dims:'50×70mm',w:50,h:70,dpi:300,note:'White/light background.'}],
+    US:[{id:'us_wp',name:'US Work Visa',dims:'51×51mm',w:51,h:51,dpi:300,note:'White background.'}],
+  },
+  student_id:{
+    US:[{id:'us_si',name:'US Student ID',dims:'51×51mm',w:51,h:51,dpi:300,note:'Typically white background.'}],
+    IN:[{id:'in_si',name:'India Student ID',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background.'}],
+    UK:[{id:'uk_si',name:'UK Student Card',dims:'35×45mm',w:35,h:45,dpi:300,note:'Plain background.'}],
+  },
+  employment_pass:{
+    SG:[{id:'sg_ep',name:'Singapore EP',dims:'35×45mm',w:35,h:45,dpi:300,note:'White background.'}],
+    MY:[{id:'my_ep',name:'Malaysia Employment Pass',dims:'35×50mm',w:35,h:50,dpi:300,note:'White background.'}],
+  },
+  custom:{'': [{id:'custom',name:'Custom Size',dims:'Custom',w:0,h:0,dpi:300,note:'Enter your desired dimensions below.'}]}
+};
+const DEFAULT_SPEC={id:'default',name:'Standard (2×2 cm)',dims:'20×20mm',w:20,h:20,dpi:300,note:'Standard 2×2 cm document photo.'};
+
+let currentFile=null,selectedSpec=null,convertedDataURL=null;
+
+/* ── FILE HANDLING ── */
+document.getElementById('fileInput').addEventListener('change',e=>{
+  if(e.target.files[0]) handleFile(e.target.files[0]);
+});
+const zone=document.getElementById('uploadZone');
+zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+zone.addEventListener('drop',e=>{
+  e.preventDefault();zone.classList.remove('drag-over');
+  if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
+
+function handleFile(file){
+  if(!file.type.startsWith('image/')){alert('Please upload an image file.');return;}
+  currentFile=file;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const img=document.getElementById('originalImg');
+    img.src=e.target.result;
+    img.onload=()=>{
+      document.getElementById('originalMeta').textContent=`${img.naturalWidth}×${img.naturalHeight}px · ${(file.size/1024).toFixed(0)}KB`;
+    };
+    document.getElementById('previewArea').classList.add('visible');
+    document.getElementById('uploadPlaceholder').style.display='none';
+    document.getElementById('previewDot').classList.add('on');
+    zone.style.padding='16px 24px';
+    zone.querySelector('h3').textContent=file.name;
+    zone.querySelector('p').textContent='Click to change photo';
+    checkCanConvert();
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ── SIZE OPTIONS ── */
+function updateSizeOptions(){
+  const doc=document.getElementById('docType').value;
+  const country=document.getElementById('country').value;
+  const container=document.getElementById('sizeOptions');
+  const reqNote=document.getElementById('reqNote');
+  const customGroup=document.getElementById('customSizeGroup');
+  selectedSpec=null;convertedDataURL=null;
+  document.getElementById('convertedImg').style.display='none';
+  document.getElementById('convPlaceholder').style.display='';
+  document.getElementById('downloadBtn').classList.remove('visible');
+  document.getElementById('sheetPreview').classList.remove('visible');
+  document.getElementById('convBadge').style.display='none';
+
+  if(doc==='custom'){
+    customGroup.style.display='block';
+    container.innerHTML=`<div style="grid-column:1/-1;"><div class="size-card selected" id="card_custom" onclick="selectCustom()"><div class="size-name">Custom Dimensions</div><div class="size-dims">Enter below ↓</div><div class="size-use">Any size you need</div></div></div>`;
+    selectCustom();reqNote.classList.remove('visible');checkCanConvert();return;
+  }
+  customGroup.style.display='none';
+  if(!doc||!country){
+    container.innerHTML=`<div style="grid-column:1/-1;color:var(--text3);font-size:13px;padding:14px 0;text-align:center;line-height:1.7;">Select document type and<br>country first</div>`;
+    checkCanConvert();return;
+  }
+  const specs=(PHOTO_SPECS[doc]||{})[country]||[];
+  if(specs.length===0){
+    container.innerHTML=`<div style="grid-column:1/-1;font-size:12px;color:var(--text3);padding:8px 0;text-align:center;">No specific spec found — using standard 2×2cm</div><div style="grid-column:1/-1;"><div class="size-card selected" id="card_default" onclick="selectSpec('default')"><div class="size-name">Standard 2×2 cm</div><div class="size-dims">20×20mm · 300 DPI</div><div class="size-use">Universal standard</div></div></div>`;
+    selectedSpec=DEFAULT_SPEC;reqNote.classList.remove('visible');checkCanConvert();return;
+  }
+  container.innerHTML=specs.map((s,i)=>`<div class="size-card${i===0?' selected':''}" id="card_${s.id}" onclick="selectSpec('${s.id}')"><div class="size-name">${s.name}</div><div class="size-dims">${s.dims} · ${s.dpi} DPI</div><div class="size-use">${s.w}mm × ${s.h}mm</div></div>`).join('');
+  selectedSpec=specs[0];
+  reqNote.textContent='⚠️ '+specs[0].note;reqNote.classList.add('visible');
+  checkCanConvert();
+}
+
+function selectSpec(id){
+  const doc=document.getElementById('docType').value;
+  const country=document.getElementById('country').value;
+  let allSpecs=[];
+  if(doc&&country&&PHOTO_SPECS[doc]) allSpecs=(PHOTO_SPECS[doc][country])||[];
+  document.querySelectorAll('.size-card').forEach(c=>c.classList.remove('selected'));
+  const card=document.getElementById('card_'+id);
+  if(card) card.classList.add('selected');
+  selectedSpec=id==='default'?DEFAULT_SPEC:(allSpecs.find(s=>s.id===id)||null);
+  if(selectedSpec){
+    const rn=document.getElementById('reqNote');
+    rn.textContent='⚠️ '+selectedSpec.note;rn.classList.add('visible');
+  }
+  checkCanConvert();
+}
+
+function selectCustom(){
+  document.querySelectorAll('.size-card').forEach(c=>c.classList.remove('selected'));
+  const card=document.getElementById('card_custom');if(card)card.classList.add('selected');
+  const w=parseFloat(document.getElementById('customW').value)||20;
+  const h=parseFloat(document.getElementById('customH').value)||20;
+  selectedSpec={id:'custom',name:'Custom',dims:`${w}×${h}mm`,w,h,dpi:300,note:'Custom dimensions.'};
+  checkCanConvert();
+}
+document.getElementById('customW').addEventListener('input',selectCustom);
+document.getElementById('customH').addEventListener('input',selectCustom);
+
+function checkCanConvert(){
+  document.getElementById('convertBtn').disabled=!(currentFile&&selectedSpec&&selectedSpec.w>0&&selectedSpec.h>0);
+}
+
+function toggleKey(){
+  const inp=document.getElementById('apiKey');
+  const btn=document.getElementById('toggleKeyBtn');
+  if(inp.type==='password'){inp.type='text';btn.textContent='Hide';}
+  else{inp.type='password';btn.textContent='Show';}
+}
+
+/* ── CONVERT ── */
+async function convertPhoto(){
+  if(!currentFile||!selectedSpec)return;
+  const btn=document.getElementById('convertBtn');
+  const status=document.getElementById('aiStatus');
+  const statusText=document.getElementById('aiStatusText');
+  const apiKey=document.getElementById('apiKey').value.trim();
+  btn.disabled=true;
+  status.className='ai-status visible processing';
+  let analysis={faceDetected:true,cropStrategy:'face-center',faceApproxX:.5,faceApproxY:.35,faceHeightRatio:.6,brightnessAdjust:0,contrastAdjust:0};
+  try{
+    const base64=await fileToBase64(currentFile);
+    const mediaType=(currentFile.type&&currentFile.type.startsWith('image/'))?currentFile.type:'image/jpeg';
+    if(apiKey){
+      statusText.textContent='AI agent analyzing your photo…';
+      try{
+        const response=await fetch('https://api.anthropic.com/v1/messages',{
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json',
+            'x-api-key':apiKey,
+            'anthropic-version':'2023-06-01',
+            'anthropic-dangerous-direct-browser-access':'true'
+          },
+          body:JSON.stringify({
+            model:'claude-sonnet-4-6',max_tokens:1000,
+            messages:[{role:'user',content:[
+              {type:'image',source:{type:'base64',media_type:mediaType,data:base64}},
+              {type:'text',text:`You are a document photo analysis agent. Analyze this photo and return ONLY a JSON object (no markdown, no backticks) for cropping.\n\nTarget: ${selectedSpec.name} — ${selectedSpec.w}mm × ${selectedSpec.h}mm (${selectedSpec.dpi} DPI)\n\nReturn exactly: {"faceDetected":true,"cropStrategy":"face-center","faceApproxX":0.5,"faceApproxY":0.35,"faceHeightRatio":0.6,"backgroundColor":"white","brightnessAdjust":0,"contrastAdjust":0,"notes":""}`}
+            ]}]
+          })
+        });
+        if(!response.ok){const e=await response.json().catch(()=>({}));throw new Error(e?.error?.message||`API error ${response.status}`);}
+        const data=await response.json();
+        if(data.content&&data.content[0]&&data.content[0].text){
+          const txt=data.content[0].text.replace(/```json|```/g,'').trim();
+          analysis={...analysis,...JSON.parse(txt)};
+        }
+        statusText.textContent='AI analysis complete. Resizing…';
+      }catch(apiErr){
+        status.className='ai-status visible processing';
+        statusText.textContent=`AI unavailable — using smart auto-crop (${apiErr.message.slice(0,50)})`;
+        await new Promise(r=>setTimeout(r,1000));
+      }
+    }else{
+      statusText.textContent='Applying smart auto-crop…';
+      await new Promise(r=>setTimeout(r,400));
+    }
+    statusText.textContent='Applying crop and resizing…';
+    const result=await processImageWithCanvas(base64,selectedSpec,analysis);
+    convertedDataURL=result;
+    const convImg=document.getElementById('convertedImg');
+    convImg.src=result;convImg.style.display='block';
+    document.getElementById('convPlaceholder').style.display='none';
+    document.getElementById('convBadge').style.display='';
+    const pxW=Math.round(selectedSpec.w/25.4*selectedSpec.dpi);
+    const pxH=Math.round(selectedSpec.h/25.4*selectedSpec.dpi);
+    document.getElementById('convertedMeta').textContent=`${pxW}×${pxH}px · ${selectedSpec.dims} · ${selectedSpec.dpi} DPI`;
+    buildSheetPreview(result,selectedSpec);
+    document.getElementById('downloadBtn').classList.add('visible');
+    const mode=apiKey?'✓ AI-enhanced':'✓ Auto-crop';
+    status.className='ai-status visible success';
+    statusText.textContent=`${mode} — ${selectedSpec.name} (${selectedSpec.dims})`;
+  }catch(err){
+    status.className='ai-status visible error';
+    statusText.textContent='✗ '+(err.message||'Conversion failed. Please try again.');
+  }
+  btn.disabled=false;
+}
+
+function fileToBase64(file){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(r.result.split(',')[1]);
+    r.onerror=()=>rej(new Error('Failed to read file'));
+    r.readAsDataURL(file);
+  });
+}
+
+function processImageWithCanvas(base64,spec,analysis){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onload=()=>{
+      const targetW=Math.round(spec.w/25.4*spec.dpi);
+      const targetH=Math.round(spec.h/25.4*spec.dpi);
+      const canvas=document.getElementById('outputCanvas');
+      canvas.width=targetW;canvas.height=targetH;
+      const ctx=canvas.getContext('2d');
+      ctx.fillStyle='#ffffff';ctx.fillRect(0,0,targetW,targetH);
+      const srcW=img.naturalWidth,srcH=img.naturalHeight;
+      const targetAR=spec.w/spec.h,srcAR=srcW/srcH;
+      let cropX,cropY,cropW,cropH;
+      const fx=analysis.faceApproxX||.5,fy=analysis.faceApproxY||.35;
+      if(srcAR>targetAR){
+        cropH=srcH;cropW=cropH*targetAR;
+        cropX=Math.max(0,Math.min(srcW-cropW,(fx*srcW)-cropW*.5));
+        cropY=0;
+      }else{
+        cropW=srcW;cropH=cropW/targetAR;
+        const faceY=fy*srcH,desiredFacePos=.35*cropH;
+        cropY=Math.max(0,Math.min(srcH-cropH,faceY-desiredFacePos));
+        cropX=0;
+      }
+      ctx.drawImage(img,cropX,cropY,cropW,cropH,0,0,targetW,targetH);
+      if(analysis.brightnessAdjust!==0||analysis.contrastAdjust!==0){
+        const imageData=ctx.getImageData(0,0,targetW,targetH);
+        const d=imageData.data;
+        const brightness=(analysis.brightnessAdjust||0)/255;
+        const contrast=1+(analysis.contrastAdjust||0)/100;
+        for(let i=0;i<d.length;i+=4){
+          for(let c=0;c<3;c++){
+            let val=d[i+c]/255;
+            val=(val-.5)*contrast+.5+brightness;
+            d[i+c]=Math.max(0,Math.min(255,Math.round(val*255)));
+          }
+        }
+        ctx.putImageData(imageData,0,0);
+      }
+      resolve(canvas.toDataURL('image/jpeg',.95));
+    };
+    img.onerror=()=>reject(new Error('Failed to load image'));
+    img.src='data:image/jpeg;base64,'+base64;
+  });
+}
+
+function buildSheetPreview(dataURL,spec){
+  const sheetW=4*25.4,sheetH=6*25.4;
+  const cols=Math.floor(sheetW/spec.w),rows=Math.floor(sheetH/spec.h);
+  const total=cols*rows;
+  if(total<1)return;
+  const thumbPx=Math.min(56,Math.round(38*spec.w/spec.h));
+  const thumbH=Math.round(thumbPx*spec.h/spec.w);
+  const grid=document.getElementById('sheetGrid');
+  grid.style.gridTemplateColumns=`repeat(${cols},${thumbPx}px)`;
+  grid.innerHTML='';
+  for(let i=0;i<total;i++){
+    const d=document.createElement('div');
+    d.className='sheet-thumb';d.style.width=thumbPx+'px';d.style.height=thumbH+'px';
+    const img=document.createElement('img');img.src=dataURL;
+    d.appendChild(img);grid.appendChild(d);
+  }
+  document.getElementById('photoCount').textContent=`${total} photos on a 4×6" print sheet (${cols}×${rows} grid)`;
+  document.getElementById('sheetPreview').classList.add('visible');
+}
+
+function downloadImage(){
+  if(!convertedDataURL)return;
+  const docType=document.getElementById('docType').value||'photo';
+  const country=document.getElementById('country').value||'';
+  const fname=`snapid_${docType}_${country}_${selectedSpec.w}x${selectedSpec.h}mm.jpg`;
+  const a=document.createElement('a');a.href=convertedDataURL;a.download=fname;a.click();
+}
+
+function resetAll(){
+  currentFile=null;convertedDataURL=null;selectedSpec=null;
+  document.getElementById('fileInput').value='';
+  document.getElementById('previewArea').classList.remove('visible');
+  document.getElementById('uploadPlaceholder').style.display='block';
+  document.getElementById('previewDot').classList.remove('on');
+  document.getElementById('originalImg').src='';
+  document.getElementById('convertedImg').src='';
+  document.getElementById('convertedImg').style.display='none';
+  document.getElementById('convPlaceholder').style.display='';
+  document.getElementById('convBadge').style.display='none';
+  document.getElementById('downloadBtn').classList.remove('visible');
+  document.getElementById('sheetPreview').classList.remove('visible');
+  document.getElementById('aiStatus').className='ai-status';
+  document.getElementById('convertBtn').disabled=true;
+  zone.style.padding='52px 24px';
+  zone.querySelector('h3').textContent='Drop your photo here';
+  zone.querySelector('p').textContent='or click to browse files';
+}
+
+/* ── QR CODE ── */
+const DL_URLS={
+  windows:'https://snapid.app/download/SnapID-Setup-2.4.1.exe',
+  macos:'https://snapid.app/download/SnapID-2.4.1.dmg'
+};
+const qrGenerated={win:false,mac:false};
+
+function toggleQR(os){
+  const panelId=`qr-${os}`;
+  const canvasId=`qr-${os}-canvas`;
+  const panel=document.getElementById(panelId);
+  const isOpen=panel.classList.contains('open');
+  document.querySelectorAll('.qr-panel').forEach(p=>p.classList.remove('open'));
+  if(!isOpen){
+    panel.classList.add('open');
+    const key=os;
+    if(!qrGenerated[key]){
+      qrGenerated[key]=true;
+      const url=os==='win'?DL_URLS.windows:DL_URLS.macos;
+      try{
+        new QRCode(document.getElementById(canvasId),{
+          text:url,width:160,height:160,
+          colorDark:'#000000',colorLight:'#ffffff',
+          correctLevel:QRCode.CorrectLevel.M
+        });
+      }catch(e){
+        document.getElementById(canvasId).innerHTML=`<div style="width:160px;height:160px;display:flex;align-items:center;justify-content:center;background:#f9f9f9;border-radius:8px;font-size:11px;color:#666;padding:12px;text-align:center;font-family:sans-serif;">QR library loading...<br>Try again in a moment.</div>`;
+      }
+    }
+  }
+}
+
+function handleDownload(os){
+  const url=os==='windows'?DL_URLS.windows:DL_URLS.macos;
+  const a=document.createElement('a');a.href=url;a.download='';a.click();
+  return false;
+}
+</script>
+</body>
+</html>

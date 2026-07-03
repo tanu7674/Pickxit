@@ -1,0 +1,12 @@
+{
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "installCommand": "",
+  "framework": null,
+  "env": {},
+  "regions": ["sfo1"],
+  "git": {
+    "deploymentEnabled": true
+  },
+  "crons": []
+}
