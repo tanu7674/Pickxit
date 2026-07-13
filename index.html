@@ -3,7 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pikxit — Instant Printable Photos</title>
+<title>Pikxit — Instant Printable Document Photos</title>
+<meta name="description" content="Pikxit is a free, browser-based tool that turns any portrait into a compliant passport, visa, or ID photo. AI-assisted face detection and cropping, pre-loaded specs for 50+ countries, 100% private — your photo never leaves your device.">
+<meta name="keywords" content="passport photo, visa photo, ID photo, document photo resizer, passport photo maker, photo ID studio, Pikxit">
+<link rel="canonical" href="https://pikxit.com/">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pikxit.com/">
+<meta property="og:title" content="Pikxit — Instant Printable Document Photos">
+<meta property="og:description" content="Upload any portrait, choose your document type and country — Pikxit's AI crops, corrects, and exports a print-ready photo that meets official requirements worldwide. 100% private, runs entirely in your browser.">
+<meta property="og:image" content="https://pikxit.com/og-image.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://pikxit.com/">
+<meta name="twitter:title" content="Pikxit — Instant Printable Document Photos">
+<meta name="twitter:description" content="Free AI-powered passport & document photo resizer. Pre-loaded specs for 50+ countries. Fully private — no uploads, ever.">
+<meta name="twitter:image" content="https://pikxit.com/og-image.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -700,10 +718,10 @@ footer{
 <nav>
   <a class="nav-logo" href="#">
     <div class="nav-logo-mark">📷</div>
-    <span class="nav-logo-text">Pik<span>xit</span></span>
-    <div style="font-size:10px;color:var(--text2);font-family:'Inter',sans-serif;font-weight:400;letter-spacing:0.05em;margin-top:1px;">INSTANT PRINTABLE PHOTOS</div>
-    </a>
+    <span class="nav-logo-text">Pic<span>Xit</span></span>
+  </a>
   <div class="nav-right">
+    <span class="nav-pill pulse">AI-Powered</span>
     <button class="btn-nav" onclick="document.getElementById('workspace').scrollIntoView({behavior:'smooth'})">Get Started →</button>
   </div>
 </nav>
@@ -1433,7 +1451,7 @@ function downloadImage(){
   if(!convertedDataURL)return;
   const docType=document.getElementById('docType').value||'photo';
   const country=document.getElementById('country').value||'';
-  const fname=`snapid_${docType}_${country}_${selectedSpec.w}x${selectedSpec.h}mm.jpg`;
+  const fname=`picxit_${docType}_${country}_${selectedSpec.w}x${selectedSpec.h}mm.jpg`;
   const a=document.createElement('a');a.href=convertedDataURL;a.download=fname;a.click();
 }
 
@@ -1459,8 +1477,8 @@ function resetAll(){
 
 /* ── QR CODE ── */
 const DL_URLS={
-  windows:'https://snapid.app/download/SnapID-Setup-2.4.1.exe',
-  macos:'https://snapid.app/download/SnapID-2.4.1.dmg'
+  windows:'https://pikxit.com/download/Pikxit-Setup-2.4.1.exe',
+  macos:'https://pikxit.com/download/Pikxit-2.4.1.dmg'
 };
 const qrGenerated={win:false,mac:false};
 
