@@ -3,54 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>pikxit — Instant Printable Document Photos</title>
-<meta name="description" content="Are you worried that your photos does not match as required.Have your ever thought that you paid too much for dollars for only 2-4 photos?
-Pikxit is a free, browser-based tool that turns any portrait into a compliant passport, visa, or ID photo. AI-assisted face detection and cropping, pre-loaded specs for 50+ countries, 100% private — your photo never leaves your device.">
-<meta name="keywords" content="passport photo, visa photo, ID photo, document photo resizer, passport photo maker, photo ID studio, Pikxit">
-<link rel="canonical" href="https://pikxit.com/">
-
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://pikxit.com/">
-<meta property="og:title" content="Pikxit — Instant Printable Document Photos">
-<meta property="og:description" content="Upload any portrait, choose your document type and country — Pikxit's AI crops, corrects, and exports a print-ready photo that meets official requirements worldwide. 100% private, runs entirely in your browser.">
-<meta property="og:image" content="https://pikxit.com/og-image.png">
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://pikxit.com/">
-<meta name="twitter:title" content="Pikxit — Instant Printable Document Photos">
-<meta name="twitter:description" content="Free AI-powered passport & document photo resizer. Pre-loaded specs for 50+ countries. Fully private — no uploads, ever.">
-<meta name="twitter:image" content="https://pikxit.com/og-image.png">
-
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232563eb'/%3E%3Cstop offset='1' stop-color='%2316a34a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='34' height='34' rx='9' fill='url(%23g)'/%3E%3Cg transform='translate(5,5)' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8'/%3E%3Cpath d='M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8'/%3E%3Cpath d='M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16'/%3E%3Cpath d='M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16'/%3E%3Ccircle cx='12' cy='10.3' r='2.3' fill='%23fff' stroke='none'/%3E%3Cpath d='M7.8 17.2c0-2.4 1.9-4.2 4.2-4.2s4.2 1.8 4.2 4.2' fill='%23fff' stroke='none'/%3E%3C/g%3E%3C/svg%3E">
+<title>picxit — AI Document Photo Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#06070d;
-  --bg2:#0d0f1a;
+  --bg:#ffffff;
+  --bg2:#f5f8fd;
   --bg3:#12152200;
-  --surface:#151929;
-  --surface2:#1c2035;
-  --border:rgba(255,255,255,0.07);
-  --border2:rgba(255,255,255,0.13);
-  --text:#f0f2ff;
-  --text2:#8b92b8;
-  --text3:#555d80;
-  --violet:#7c6af7;
-  --violet2:#9f97ff;
-  --violet-bg:rgba(124,106,247,0.12);
-  --violet-glow:rgba(124,106,247,0.25);
-  --cyan:#22d3ee;
-  --cyan-bg:rgba(34,211,238,0.1);
-  --green:#34d399;
-  --green-bg:rgba(52,211,153,0.1);
-  --amber:#fbbf24;
-  --amber-bg:rgba(251,191,36,0.1);
-  --red:#f87171;
-  --red-bg:rgba(248,113,113,0.1);
+  --surface:#ffffff;
+  --surface2:#f2f5fb;
+  --border:rgba(15,23,42,0.09);
+  --border2:rgba(15,23,42,0.16);
+  --text:#0f172a;
+  --text2:#5b6478;
+  --text3:#8891a6;
+  --violet:#2563eb;
+  --violet2:#2f6fed;
+  --violet-bg:rgba(37,99,235,0.08);
+  --violet-glow:rgba(37,99,235,0.22);
+  --cyan:#0ea5b7;
+  --cyan-bg:rgba(14,165,183,0.1);
+  --green:#16a34a;
+  --green-bg:rgba(22,163,74,0.1);
+  --amber:#e69b0c;
+  --amber-bg:rgba(230,155,12,0.1);
+  --red:#dc2626;
+  --red-bg:rgba(220,38,38,0.08);
   --r:10px;
   --r-lg:16px;
   --r-xl:24px;
@@ -74,14 +55,14 @@ body{
   content:'';position:absolute;
   top:-20%;left:-10%;
   width:60%;height:60%;
-  background:radial-gradient(ellipse,rgba(124,106,247,0.12) 0%,transparent 70%);
+  background:radial-gradient(ellipse,rgba(37,99,235,0.06) 0%,transparent 70%);
   animation:drift1 18s ease-in-out infinite alternate;
 }
 .bg-glow::after{
   content:'';position:absolute;
   bottom:-20%;right:-10%;
   width:60%;height:60%;
-  background:radial-gradient(ellipse,rgba(34,211,238,0.07) 0%,transparent 70%);
+  background:radial-gradient(ellipse,rgba(22,163,74,0.05) 0%,transparent 70%);
   animation:drift2 22s ease-in-out infinite alternate;
 }
 @keyframes drift1{0%{transform:translate(0,0) scale(1)}100%{transform:translate(5%,8%) scale(1.1)}}
@@ -90,7 +71,7 @@ body{
 /* ── NAV ── */
 nav{
   position:sticky;top:0;z-index:200;
-  background:rgba(6,7,13,0.85);
+  background:rgba(255,255,255,0.85);
   backdrop-filter:blur(20px);
   -webkit-backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);
@@ -101,17 +82,17 @@ nav{
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
 .nav-logo-mark{
   width:34px;height:34px;border-radius:10px;
-  background:linear-gradient(135deg,#7c6af7,#22d3ee);
+  background:linear-gradient(135deg,#2563eb,#16a34a);
   display:flex;align-items:center;justify-content:center;
   font-size:16px;
-  box-shadow:0 0 20px rgba(124,106,247,0.4);
+  box-shadow:0 4px 14px rgba(37,99,235,0.3);
 }
-.nav-logo-text{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--text);}
+.nav-logo-text{font-family:'Sora',sans-serif;font-size:18px;font-weight:700;color:var(--violet2);}
 .nav-logo-text span{color:var(--violet2);}
 .nav-right{display:flex;align-items:center;gap:12px;}
 .nav-pill{
   background:var(--violet-bg);
-  border:1px solid rgba(124,106,247,0.3);
+  border:1px solid rgba(37,99,235,0.3);
   color:var(--violet2);
   font-size:11px;font-weight:600;
   padding:4px 12px;border-radius:20px;
@@ -132,7 +113,7 @@ nav{
   cursor:pointer;transition:all .2s;
   font-family:'Inter',sans-serif;
 }
-.btn-nav:hover{background:#6a58e8;transform:translateY(-1px);box-shadow:0 4px 20px rgba(124,106,247,.4);}
+.btn-nav:hover{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 4px 20px rgba(37,99,235,.35);}
 
 /* ── HERO ── */
 .hero{
@@ -144,7 +125,7 @@ nav{
 .hero-eyebrow{
   display:inline-flex;align-items:center;gap:8px;
   background:var(--violet-bg);
-  border:1px solid rgba(124,106,247,0.25);
+  border:1px solid rgba(37,99,235,0.25);
   border-radius:20px;padding:6px 16px;
   font-size:12px;font-weight:600;color:var(--violet2);
   letter-spacing:0.05em;text-transform:uppercase;
@@ -152,15 +133,15 @@ nav{
 }
 .hero-eyebrow svg{width:14px;height:14px;fill:var(--violet2);}
 .hero h1{
-  font-family:'Space Grotesk',sans-serif;
+  font-family:'Sora',sans-serif;
   font-size:clamp(36px,6vw,64px);
   font-weight:700;line-height:1.1;
   margin-bottom:20px;
   letter-spacing:-0.02em;
+  color:#000;
 }
 .hero h1 .grad{
-  background:linear-gradient(135deg,#fff 20%,var(--violet2) 50%,var(--cyan));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  color:#000;
 }
 .hero-sub{
   font-size:17px;color:var(--text2);
@@ -171,9 +152,9 @@ nav{
   margin-top:40px;
 }
 .stat{text-align:center;}
-.stat-num{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--text);}
+.stat-num{font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#000;}
 .stat-num span{color:var(--violet2);}
-.stat-label{font-size:12px;color:var(--text3);margin-top:2px;}
+.stat-label{font-size:12px;color:var(--violet2);margin-top:2px;}
 
 /* ── HOW IT WORKS ── */
 .how-section{
@@ -188,7 +169,7 @@ nav{
   color:var(--violet2);margin-bottom:16px;
 }
 .section-title{
-  font-family:'Space Grotesk',sans-serif;
+  font-family:'Sora',sans-serif;
   font-size:clamp(22px,3vw,32px);font-weight:700;
   text-align:center;margin-bottom:48px;
   color:var(--text);
@@ -211,12 +192,12 @@ nav{
 .step-card:hover::before{opacity:1;}
 .step-num-badge{
   width:36px;height:36px;border-radius:10px;
-  background:var(--violet-bg);border:1px solid rgba(124,106,247,.3);
+  background:var(--violet-bg);border:1px solid rgba(37,99,235,.28);
   display:flex;align-items:center;justify-content:center;
-  font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;
-  color:var(--violet2);margin-bottom:16px;
+  font-family:'Sora',sans-serif;font-size:15px;font-weight:700;
+  color:#000;margin-bottom:16px;
 }
-.step-card h3{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--text);}
+.step-card h3{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--violet2);}
 .step-card p{font-size:13px;color:var(--text2);line-height:1.6;}
 .step-icon{font-size:24px;margin-bottom:10px;}
 
@@ -274,7 +255,7 @@ nav{
   padding:52px 24px;
   text-align:center;cursor:pointer;
   transition:all .25s;position:relative;
-  background:rgba(255,255,255,0.015);
+  background:rgba(15,23,42,0.02);
 }
 .upload-zone:hover,.upload-zone.drag-over{
   border-color:var(--violet);
@@ -286,7 +267,7 @@ nav{
 .upload-zone-icon{
   width:56px;height:56px;border-radius:16px;
   background:linear-gradient(135deg,var(--violet-bg),var(--cyan-bg));
-  border:1px solid rgba(124,106,247,.25);
+  border:1px solid rgba(37,99,235,.25);
   display:flex;align-items:center;justify-content:center;
   font-size:24px;margin:0 auto 16px;
   transition:transform .2s;
@@ -299,7 +280,7 @@ nav{
   flex-wrap:wrap;margin-top:16px;
 }
 .fmt{
-  background:rgba(255,255,255,0.05);
+  background:rgba(15,23,42,0.04);
   border:1px solid var(--border);
   border-radius:6px;padding:3px 10px;
   font-size:11px;color:var(--text3);
@@ -311,7 +292,7 @@ nav{
 .preview-area.visible{display:flex;}
 .preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .preview-box{
-  background:rgba(255,255,255,0.02);
+  background:rgba(15,23,42,0.025);
   border:1px solid var(--border);
   border-radius:var(--r-lg);overflow:hidden;
 }
@@ -326,13 +307,13 @@ nav{
   font-size:9px;padding:2px 6px;border-radius:4px;
   font-weight:600;letter-spacing:.04em;
 }
-.preview-label .label-badge.orig{background:rgba(255,255,255,.06);color:var(--text3);}
+.preview-label .label-badge.orig{background:rgba(15,23,42,0.05);color:var(--text3);}
 .preview-label .label-badge.conv{background:var(--green-bg);color:var(--green);}
 .preview-img-wrap{
   padding:16px;
   display:flex;align-items:center;justify-content:center;
   min-height:180px;
-  background:repeating-conic-gradient(rgba(255,255,255,.03) 0% 25%,transparent 0% 50%) 0 0/20px 20px;
+  background:repeating-conic-gradient(rgba(15,23,42,0.04) 0% 25%,transparent 0% 50%) 0 0/20px 20px;
 }
 .preview-img-wrap img{
   max-width:100%;max-height:200px;
@@ -350,7 +331,7 @@ canvas#outputCanvas{display:none;}
 /* ── SHEET PREVIEW ── */
 .sheet-preview{
   display:none;
-  background:rgba(255,255,255,.02);
+  background:rgba(15,23,42,0.025);
   border:1px solid var(--border);
   border-radius:var(--r-lg);padding:20px;
   text-align:center;
@@ -379,37 +360,37 @@ canvas#outputCanvas{display:none;}
   font-family:'Inter',sans-serif;
 }
 .btn-convert{
-  background:linear-gradient(135deg,#7c6af7,#5b9aff);
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
   color:#fff;
-  box-shadow:0 4px 24px rgba(124,106,247,.3);
+  box-shadow:0 4px 24px rgba(37,99,235,.28);
   position:relative;overflow:hidden;
 }
 .btn-convert::before{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);
+  background:linear-gradient(135deg,rgba(255,255,255,0.35),transparent);
   opacity:0;transition:opacity .2s;
 }
 .btn-convert:hover:not(:disabled)::before{opacity:1;}
-.btn-convert:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 32px rgba(124,106,247,.45);}
+.btn-convert:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 32px rgba(37,99,235,.4);}
 .btn-convert:active:not(:disabled){transform:translateY(0);}
 .btn-convert:disabled{opacity:.35;cursor:not-allowed;box-shadow:none;}
 
 .btn-download-main{
-  background:linear-gradient(135deg,#22d3ee,#34d399);
-  color:#0a1620;font-weight:700;
-  box-shadow:0 4px 20px rgba(34,211,238,.2);
+  background:linear-gradient(135deg,#16a34a,#22c55e);
+  color:#052e16;font-weight:700;
+  box-shadow:0 4px 20px rgba(22,163,74,.22);
   display:none;
 }
 .btn-download-main.visible{display:flex;}
-.btn-download-main:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(34,211,238,.35);}
+.btn-download-main:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(22,163,74,.35);}
 
 .btn-ghost{
-  background:rgba(255,255,255,.04);
+  background:rgba(15,23,42,0.035);
   color:var(--text2);
   border:1px solid var(--border);
   margin-top:8px;
 }
-.btn-ghost:hover:not(:disabled){background:rgba(255,255,255,.07);border-color:var(--border2);}
+.btn-ghost:hover:not(:disabled){background:rgba(15,23,42,0.06);border-color:var(--border2);}
 
 /* ── CONFIG PANEL ── */
 .form-group{margin-bottom:22px;}
@@ -422,13 +403,13 @@ canvas#outputCanvas{display:none;}
 .field-label .step-badge{
   width:20px;height:20px;border-radius:6px;
   background:var(--violet-bg);
-  border:1px solid rgba(124,106,247,.3);
+  border:1px solid rgba(37,99,235,.28);
   display:inline-flex;align-items:center;justify-content:center;
   font-size:10px;font-weight:800;color:var(--violet2);
 }
 select,input[type="text"],input[type="password"]{
   width:100%;padding:10px 14px;
-  background:rgba(255,255,255,.04);
+  background:rgba(15,23,42,0.035);
   border:1px solid var(--border);
   border-radius:var(--r);
   color:var(--text);font-size:14px;
@@ -444,19 +425,19 @@ input[type="text"],input[type="password"]{background-image:none;padding-right:14
 select:focus,input:focus{
   outline:none;
   border-color:var(--violet);
-  background:rgba(124,106,247,.06);
-  box-shadow:0 0 0 3px rgba(124,106,247,.15);
+  background:rgba(37,99,235,.06);
+  box-shadow:0 0 0 3px rgba(37,99,235,.15);
 }
-select option{background:#1c2035;color:#f0f2ff;}
+select option{background:#ffffff;color:#0f172a;}
 
 .size-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .size-card{
-  background:rgba(255,255,255,.03);
+  background:rgba(15,23,42,0.04);
   border:1px solid var(--border);
   border-radius:var(--r);padding:12px;
   cursor:pointer;transition:all .15s;
 }
-.size-card:hover{border-color:var(--border2);background:rgba(255,255,255,.05);}
+.size-card:hover{border-color:var(--border2);background:rgba(15,23,42,0.045);}
 .size-card.selected{
   border-color:var(--violet);
   background:var(--violet-bg);
@@ -468,7 +449,7 @@ select option{background:#1c2035;color:#f0f2ff;}
 /* ── KEY INPUT ── */
 .key-wrap{position:relative;}
 .key-wrap input{background-image:none;padding-right:60px;
-  background:rgba(255,255,255,.04);}
+  background:rgba(15,23,42,0.035);}
 .key-toggle{
   position:absolute;right:8px;top:50%;transform:translateY(-50%);
   background:none;border:none;color:var(--text3);
@@ -518,8 +499,8 @@ select option{background:#1c2035;color:#f0f2ff;}
 
 /* ── INFO BOX ── */
 .info-box{
-  background:rgba(124,106,247,.06);
-  border:1px solid rgba(124,106,247,.15);
+  background:rgba(37,99,235,.06);
+  border:1px solid rgba(37,99,235,.15);
   border-radius:var(--r);padding:14px;
   font-size:12px;color:var(--text2);
   line-height:1.6;margin-top:16px;
@@ -553,138 +534,6 @@ select option{background:#1c2035;color:#f0f2ff;}
 .feat-card h4{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px;}
 .feat-card p{font-size:12px;color:var(--text2);line-height:1.5;}
 
-/* ── DOWNLOAD SECTION ── */
-.download-section{
-  position:relative;z-index:1;
-  max-width:1160px;margin:0 auto;
-  padding:0 24px 100px;
-}
-.download-hero{
-  background:linear-gradient(135deg,
-    rgba(124,106,247,0.12) 0%,
-    rgba(34,211,238,0.06) 50%,
-    rgba(52,211,153,0.06) 100%);
-  border:1px solid rgba(124,106,247,.2);
-  border-radius:var(--r-xl);
-  padding:56px 48px;
-  text-align:center;
-  overflow:hidden;
-  position:relative;
-}
-.download-hero::before{
-  content:'';position:absolute;
-  top:-50%;left:50%;transform:translateX(-50%);
-  width:500px;height:300px;
-  background:radial-gradient(ellipse,rgba(124,106,247,.15) 0%,transparent 70%);
-  pointer-events:none;
-}
-.download-hero h2{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:clamp(24px,3.5vw,38px);
-  font-weight:700;color:var(--text);
-  margin-bottom:12px;letter-spacing:-.02em;
-}
-.download-hero p{
-  font-size:15px;color:var(--text2);
-  max-width:480px;margin:0 auto 40px;
-  line-height:1.7;
-}
-.download-cards{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:20px;max-width:700px;margin:0 auto;
-}
-.dl-card{
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--border2);
-  border-radius:var(--r-lg);
-  padding:28px 24px;
-  text-align:left;
-  transition:border-color .2s,transform .2s,background .2s;
-  cursor:pointer;
-}
-.dl-card:hover{
-  border-color:rgba(124,106,247,.5);
-  background:rgba(124,106,247,.08);
-  transform:translateY(-3px);
-}
-.dl-card-header{
-  display:flex;align-items:center;gap:12px;
-  margin-bottom:16px;
-}
-.dl-os-icon{
-  width:44px;height:44px;border-radius:12px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;
-  background:rgba(255,255,255,.06);
-  border:1px solid var(--border);
-}
-.dl-card-title{font-size:16px;font-weight:700;color:var(--text);}
-.dl-card-sub{font-size:11px;color:var(--text3);margin-top:2px;}
-.dl-link{
-  display:flex;align-items:center;gap:8px;
-  background:var(--violet);color:#fff;
-  border:none;border-radius:8px;
-  padding:10px 16px;font-size:13px;font-weight:600;
-  cursor:pointer;text-decoration:none;
-  width:100%;justify-content:center;
-  margin-bottom:10px;
-  transition:all .2s;font-family:'Inter',sans-serif;
-}
-.dl-link:hover{background:#6a58e8;transform:translateY(-1px);}
-.dl-link svg{width:14px;height:14px;flex-shrink:0;}
-.qr-toggle{
-  display:flex;align-items:center;gap:6px;
-  background:none;border:none;
-  color:var(--text2);font-size:12px;
-  cursor:pointer;width:100%;justify-content:center;
-  padding:6px;border-radius:6px;
-  transition:color .15s;font-family:'Inter',sans-serif;
-}
-.qr-toggle:hover{color:var(--violet2);}
-.qr-toggle svg{width:14px;height:14px;}
-.qr-panel{
-  display:none;
-  margin-top:12px;
-  border-top:1px solid var(--border);
-  padding-top:16px;
-  text-align:center;
-}
-.qr-panel.open{display:block;}
-.qr-panel-inner{
-  display:inline-flex;
-  background:#fff;
-  border-radius:12px;
-  padding:12px;
-}
-.qr-label{
-  font-size:11px;color:var(--text3);
-  margin-top:10px;
-  font-style:italic;
-}
-.version-badge{
-  display:inline-block;
-  background:var(--green-bg);
-  border:1px solid rgba(52,211,153,.25);
-  color:var(--green);
-  font-size:10px;font-weight:700;
-  padding:2px 8px;border-radius:4px;
-  letter-spacing:.04em;margin-top:4px;
-}
-
-/* ── FOOTER ── */
-footer{
-  position:relative;z-index:1;
-  border-top:1px solid var(--border);
-  padding:32px 40px;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:16px;
-}
-.footer-left{font-size:13px;color:var(--text3);}
-.footer-left strong{color:var(--text2);}
-.footer-links{display:flex;gap:20px;}
-.footer-links a{font-size:12px;color:var(--text3);text-decoration:none;transition:color .15s;}
-.footer-links a:hover{color:var(--violet2);}
-
 /* ── DIVIDER ── */
 .section-divider{
   max-width:1160px;margin:0 auto;padding:0 24px;
@@ -692,7 +541,7 @@ footer{
 }
 .divider-line{
   height:1px;
-  background:linear-gradient(90deg,transparent,rgba(124,106,247,.3),rgba(34,211,238,.2),transparent);
+  background:linear-gradient(90deg,transparent,rgba(37,99,235,.28),rgba(22,163,74,.22),transparent);
 }
 
 /* ── MOBILE ── */
@@ -701,14 +550,143 @@ footer{
   nav{padding:0 20px;}
   .features-grid{grid-template-columns:1fr 1fr;}
   .steps{grid-template-columns:1fr;}
-  .download-cards{grid-template-columns:1fr;}
+  .custom-steps-grid{grid-template-columns:1fr;}
+  .testimonials-grid{grid-template-columns:1fr;}
+  .trust-stats{gap:24px;}
 }
 @media(max-width:600px){
   .hero{padding:48px 16px 40px;}
   .features-grid{grid-template-columns:1fr;}
   .hero-stats{gap:20px;}
-  footer{flex-direction:column;align-items:flex-start;}
 }
+
+/* ── CUSTOM SIZE STEPS ── */
+.custom-steps-section{
+  position:relative;z-index:1;
+  max-width:1160px;margin:0 auto;
+  padding:0 24px 64px;
+}
+.custom-steps-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:18px;counter-reset:cstep;
+}
+.custom-step-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:26px 22px;
+  position:relative;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+}
+.custom-step-card:hover{
+  border-color:rgba(37,99,235,.35);
+  transform:translateY(-3px);
+  box-shadow:0 10px 30px rgba(15,23,42,.06);
+}
+.custom-step-connector{
+  position:absolute;top:44px;right:-18px;
+  width:18px;height:2px;
+  background:linear-gradient(90deg,rgba(37,99,235,.35),transparent);
+  display:block;
+}
+.custom-step-num{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--violet-bg);border:1.5px solid rgba(37,99,235,.3);
+  color:#000;font-family:'Sora',sans-serif;font-weight:700;font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;
+}
+.custom-step-card h3{font-size:14.5px;font-weight:600;color:var(--violet2);margin-bottom:7px;}
+.custom-step-card p{font-size:12.5px;color:var(--text2);line-height:1.6;}
+.custom-step-card code{
+  background:var(--violet-bg);color:var(--violet2);
+  border-radius:4px;padding:1px 6px;font-size:11px;
+  font-family:monospace;font-weight:600;
+}
+
+/* ── TESTIMONIALS ── */
+.testimonials-section{
+  position:relative;z-index:1;
+  max-width:1160px;margin:0 auto;
+  padding:0 24px 64px;
+}
+.trust-stats{
+  display:flex;justify-content:center;gap:48px;
+  flex-wrap:wrap;margin-bottom:44px;
+}
+.trust-stat{text-align:center;}
+.trust-stat-num{
+  font-family:'Sora',sans-serif;font-size:26px;font-weight:700;
+  color:#000;display:flex;align-items:center;justify-content:center;gap:4px;
+}
+.trust-stat-num svg{width:20px;height:20px;fill:var(--amber);}
+.trust-stat-label{font-size:12px;color:var(--violet2);margin-top:2px;}
+.testimonials-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+.testimonial-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:26px 24px;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+}
+.testimonial-card:hover{
+  border-color:var(--border2);
+  transform:translateY(-3px);
+  box-shadow:0 10px 30px rgba(15,23,42,.06);
+}
+.testimonial-stars{display:flex;gap:2px;margin-bottom:14px;}
+.testimonial-stars svg{width:15px;height:15px;fill:var(--amber);}
+.testimonial-text{font-size:13.5px;color:var(--text2);line-height:1.7;margin-bottom:18px;}
+.testimonial-author{display:flex;align-items:center;gap:10px;}
+.testimonial-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--violet-bg),var(--green-bg));
+  border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Sora',sans-serif;font-weight:700;font-size:13px;
+  color:var(--violet2);
+}
+.testimonial-name{font-size:13px;font-weight:600;color:var(--text);}
+.testimonial-meta{font-size:11px;color:var(--text3);}
+
+/* ── FAQ ── */
+.faq-section{
+  position:relative;z-index:1;
+  max-width:820px;margin:0 auto;
+  padding:0 24px 80px;
+}
+.faq-list{display:flex;flex-direction:column;gap:10px;}
+.faq-item{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  transition:border-color .2s;
+}
+.faq-item.open{border-color:rgba(37,99,235,.3);}
+.faq-question{
+  width:100%;text-align:left;background:none;border:none;
+  padding:18px 22px;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  font-family:'Inter',sans-serif;font-size:14.5px;font-weight:600;color:var(--text);
+}
+.faq-question .faq-icon{
+  width:22px;height:22px;flex-shrink:0;border-radius:6px;
+  background:var(--violet-bg);color:var(--violet2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;transition:transform .25s;
+}
+.faq-item.open .faq-question .faq-icon{transform:rotate(45deg);}
+.faq-answer{
+  max-height:0;overflow:hidden;
+  transition:max-height .3s ease,padding .3s ease;
+  padding:0 22px;
+}
+.faq-item.open .faq-answer{max-height:220px;padding:0 22px 18px;}
+.faq-answer p{font-size:13px;color:var(--text2);line-height:1.7;}
 </style>
 </head>
 <body>
@@ -718,11 +696,19 @@ footer{
 <!-- NAV -->
 <nav>
   <a class="nav-logo" href="#">
-    <div class="nav-logo-mark">📷</div>
-    <span class="nav-logo-text">Pik<span>xit</span></span>
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8"/>
+        <path d="M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8"/>
+        <path d="M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16"/>
+        <path d="M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"/>
+        <circle cx="12" cy="10.3" r="2.3" fill="#fff" stroke="none"/>
+        <path d="M7.8 17.2c0-2.4 1.9-4.2 4.2-4.2s4.2 1.8 4.2 4.2" fill="#fff" stroke="none"/>
+      </svg>
+    </div>
+    <span class="nav-logo-text">picxit</span>
   </a>
   <div class="nav-right">
-    <span class="nav-pill pulse">AI-Powered</span>
     <button class="btn-nav" onclick="document.getElementById('workspace').scrollIntoView({behavior:'smooth'})">Get Started →</button>
   </div>
 </nav>
@@ -998,10 +984,45 @@ footer{
   </div>
 </section>
 
+<!-- CUSTOM SIZE STEPS -->
+<section class="custom-steps-section">
+  <div class="section-divider" style="padding:0;margin-bottom:48px;"><div class="divider-line"></div></div>
+  <div class="section-label" style="text-align:center;margin-bottom:16px;">Custom Sizing</div>
+  <div class="section-title">Need a Non-Standard Photo Size?</div>
+  <p style="text-align:center;color:var(--text2);font-size:14px;max-width:560px;margin:-24px auto 40px;line-height:1.7;">
+    Not every document fits a pre-loaded spec. Here's how to get an exact custom-size photo for any form, application, or ID card in under a minute.
+  </p>
+  <div class="custom-steps-grid">
+    <div class="custom-step-card">
+      <div class="custom-step-num">1</div>
+      <h3>Upload your photo</h3>
+      <p>Drop in any portrait photo in the Studio above — it stays on your device the whole time.</p>
+      <span class="custom-step-connector"></span>
+    </div>
+    <div class="custom-step-card">
+      <div class="custom-step-num">2</div>
+      <h3>Select "Custom Size"</h3>
+      <p>In <strong>Step 1 · Document Type</strong>, choose <code>Custom Size</code> from the "Other" group in the dropdown.</p>
+      <span class="custom-step-connector"></span>
+    </div>
+    <div class="custom-step-card">
+      <div class="custom-step-num">3</div>
+      <h3>Enter exact dimensions</h3>
+      <p>Type your required <code>Width (mm)</code> and <code>Height (mm)</code> — any measurement from a form, embassy, or printer.</p>
+      <span class="custom-step-connector"></span>
+    </div>
+    <div class="custom-step-card">
+      <div class="custom-step-num">4</div>
+      <h3>Convert &amp; download</h3>
+      <p>Hit Convert — the AI crops and centers your face to those exact dimensions at 300 DPI, ready to print.</p>
+    </div>
+  </div>
+</section>
+
 <!-- FEATURES -->
 <section class="features-strip">
   <div class="section-divider" style="padding:0;margin-bottom:48px;"><div class="divider-line"></div></div>
-  <div class="section-label" style="text-align:center;margin-bottom:16px;">Why Pikxit</div>
+  <div class="section-label" style="text-align:center;margin-bottom:16px;">Why picxit</div>
   <div class="section-title">Everything you need for official photos</div>
   <div class="features-grid">
     <div class="feat-card">
@@ -1027,86 +1048,131 @@ footer{
   </div>
 </section>
 
-<!-- DOWNLOAD SECTION -->
-<section class="download-section" id="download">
-  <div class="download-hero">
-    <div class="section-label" style="margin-bottom:16px;">Desktop App</div>
-    <h2>Take Pikxit Everywhere</h2>
-    <p>Download the native desktop app for offline use, batch processing, and faster performance — available for Windows and macOS.</p>
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="section-divider" style="padding:0;margin-bottom:48px;"><div class="divider-line"></div></div>
+  <div class="section-label" style="text-align:center;margin-bottom:16px;">Trusted by Travelers</div>
+  <div class="section-title">Why People Love picxit</div>
 
-    <div class="download-cards">
-      <!-- Windows -->
-      <div class="dl-card">
-        <div class="dl-card-header">
-          <div class="dl-os-icon">🪟</div>
-          <div>
-            <div class="dl-card-title">Windows</div>
-            <div class="dl-card-sub">Windows 10 / 11 (64-bit)</div>
-          </div>
-        </div>
-        <div class="version-badge">v2.4.1 · Latest</div>
-        <div style="margin-top:16px;">
-          <a class="dl-link" href="#" onclick="return handleDownload('windows')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download for Windows (.exe)
-          </a>
-          <button class="qr-toggle" onclick="toggleQR('win')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/></svg>
-            Scan QR code to download
-          </button>
-          <div class="qr-panel" id="qr-win">
-            <div class="qr-panel-inner">
-              <div id="qr-win-canvas"></div>
-            </div>
-            <div class="qr-label">Scan with your phone to get the download link</div>
-          </div>
+  <div class="trust-stats">
+    <div class="trust-stat">
+      <div class="trust-stat-num">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        4.9/5
+      </div>
+      <div class="trust-stat-label">Average rating</div>
+    </div>
+    <div class="trust-stat">
+      <div class="trust-stat-num">12K<span style="color:var(--violet2);">+</span></div>
+      <div class="trust-stat-label">Photos converted</div>
+    </div>
+    <div class="trust-stat">
+      <div class="trust-stat-num">99<span style="color:var(--violet2);">%</span></div>
+      <div class="trust-stat-label">Compliance rate</div>
+    </div>
+  </div>
+
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <p class="testimonial-text">Needed a passport photo the night before my appointment. Uploaded a selfie, picked "US Passport," and had a print-ready file in under a minute. Accepted with zero issues.</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">R</div>
+        <div>
+          <div class="testimonial-name">Rachel M.</div>
+          <div class="testimonial-meta">United States</div>
         </div>
       </div>
+    </div>
 
-      <!-- macOS -->
-      <div class="dl-card">
-        <div class="dl-card-header">
-          <div class="dl-os-icon">🍎</div>
-          <div>
-            <div class="dl-card-title">macOS</div>
-            <div class="dl-card-sub">macOS 12 Monterey or later</div>
-          </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <p class="testimonial-text">I loved that I didn't have to upload my photo to a server. Used the custom size option to hit an odd 40×60mm requirement for a visa — worked perfectly on the first try.</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">A</div>
+        <div>
+          <div class="testimonial-name">Amit S.</div>
+          <div class="testimonial-meta">India</div>
         </div>
-        <div class="version-badge">v2.4.1 · Latest</div>
-        <div style="margin-top:16px;">
-          <a class="dl-link" href="#" onclick="return handleDownload('macos')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download for macOS (.dmg)
-          </a>
-          <button class="qr-toggle" onclick="toggleQR('mac')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/></svg>
-            Scan QR code to download
-          </button>
-          <div class="qr-panel" id="qr-mac">
-            <div class="qr-panel-inner">
-              <div id="qr-mac-canvas"></div>
-            </div>
-            <div class="qr-label">Scan with your phone to get the download link</div>
-          </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="testimonial-stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <p class="testimonial-text">Free, fast, and no watermark nonsense. The background replacement feature saved me a trip to a photo booth for my daughter's student ID.</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">C</div>
+        <div>
+          <div class="testimonial-name">Claire O.</div>
+          <div class="testimonial-meta">United Kingdom</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-left">
-    <strong>Pikxit</strong> — AI-powered document photo conversion.<br>
-    <span style="font-size:11px;">Always verify final requirements with the issuing authority.</span>
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="section-divider" style="padding:0;margin-bottom:48px;"><div class="divider-line"></div></div>
+  <div class="section-label" style="text-align:center;margin-bottom:16px;">Questions</div>
+  <div class="section-title">Frequently Asked Questions</div>
+  <div class="faq-list">
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <button class="faq-question">Is my photo really kept private?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>Yes. All cropping, resizing, and background processing happens directly in your browser using Canvas and on-device AI. Your photo is never uploaded to a server — unless you choose to enable the optional Claude API face-analysis feature, in which case only that single image is sent directly to Anthropic's API for analysis, using your own key.</p></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <button class="faq-question">Do I need an API key to use picxit?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>No. An Anthropic API key is completely optional. Without one, picxit uses a smart auto-crop algorithm that centers and sizes your photo automatically. With a key, an AI vision model fine-tunes the face position and lighting for an extra layer of precision.</p></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <button class="faq-question">What if my country or document isn't listed?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>Select "Custom Size" under Document Type and enter your exact width and height in millimeters. This works for any document, form, or ID from any country — see the "Custom Sizing" section above for a step-by-step walkthrough.</p></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <button class="faq-question">Will my photo be accepted by the issuing authority?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>picxit follows the official published dimensions and background guidance for each document and country. That said, requirements can change, so we always recommend double-checking the current rules on the issuing authority's website before submitting.</p></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <button class="faq-question">Can I print multiple photos on one sheet?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>Yes — after converting, scroll to the Print Sheet Preview to see how many copies fit on a standard 4×6" sheet, laid out and ready to send to any photo printer.</p></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <button class="faq-question">Is picxit really free to use?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>Yes, converting and downloading photos is completely free with no signup required. The only optional cost is your own Anthropic API usage if you choose to enable AI-guided face analysis.</p></div>
+    </div>
   </div>
-  <div class="footer-links">
-    <a href="#workspace">Studio</a>
-    <a href="#download">Download</a>
-    <a href="https://console.anthropic.com" target="_blank">API Keys</a>
-    <a href="#">Privacy</a>
-  </div>
-</footer>
+</section>
 
 <canvas id="outputCanvas"></canvas>
 
@@ -1476,42 +1542,11 @@ function resetAll(){
   zone.querySelector('p').textContent='or click to browse files';
 }
 
-/* ── QR CODE ── */
-const DL_URLS={
-  windows:'https://pikxit.com/download/Pikxit-Setup-2.4.1.exe',
-  macos:'https://pikxit.com/download/Pikxit-2.4.1.dmg'
-};
-const qrGenerated={win:false,mac:false};
-
-function toggleQR(os){
-  const panelId=`qr-${os}`;
-  const canvasId=`qr-${os}-canvas`;
-  const panel=document.getElementById(panelId);
-  const isOpen=panel.classList.contains('open');
-  document.querySelectorAll('.qr-panel').forEach(p=>p.classList.remove('open'));
-  if(!isOpen){
-    panel.classList.add('open');
-    const key=os;
-    if(!qrGenerated[key]){
-      qrGenerated[key]=true;
-      const url=os==='win'?DL_URLS.windows:DL_URLS.macos;
-      try{
-        new QRCode(document.getElementById(canvasId),{
-          text:url,width:160,height:160,
-          colorDark:'#000000',colorLight:'#ffffff',
-          correctLevel:QRCode.CorrectLevel.M
-        });
-      }catch(e){
-        document.getElementById(canvasId).innerHTML=`<div style="width:160px;height:160px;display:flex;align-items:center;justify-content:center;background:#f9f9f9;border-radius:8px;font-size:11px;color:#666;padding:12px;text-align:center;font-family:sans-serif;">QR library loading...<br>Try again in a moment.</div>`;
-      }
-    }
-  }
-}
-
-function handleDownload(os){
-  const url=os==='windows'?DL_URLS.windows:DL_URLS.macos;
-  const a=document.createElement('a');a.href=url;a.download='';a.click();
-  return false;
+/* ── FAQ ACCORDION ── */
+function toggleFaq(item){
+  const wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(f=>f.classList.remove('open'));
+  if(!wasOpen) item.classList.add('open');
 }
 </script>
 </body>
