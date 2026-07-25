@@ -23,18 +23,18 @@
   --text2:#5b6478;
   --text3:#64748b;
   --violet:#2563eb;
-  --violet2:#2f6fed;
+  --violet2:#1d4ed8;
   --violet-bg:rgba(37,99,235,0.08);
   --violet-glow:rgba(37,99,235,0.22);
   --cyan:#0ea5b7;
   --cyan-bg:rgba(14,165,183,0.1);
   --green:#16a34a;
-  --green-text:#15803d;
+  --green-text:#166534;
   --green-bg:rgba(22,163,74,0.1);
   --amber:#d97706;
   --amber-text:#b45309;
   --amber-bg:rgba(230,155,12,0.1);
-  --red:#dc2626;
+  --red:#b91c1c;
   --red-bg:rgba(220,38,38,0.08);
   --r:10px;
   --r-lg:16px;
@@ -364,7 +364,7 @@ canvas#outputCanvas{display:none;}
   font-family:'Inter',sans-serif;
 }
 .btn-convert{
-  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  background:linear-gradient(135deg,#2563eb,#1d4ed8);
   color:#fff;
   box-shadow:0 4px 24px rgba(37,99,235,.28);
   position:relative;overflow:hidden;
@@ -456,10 +456,12 @@ select option{background:#ffffff;color:#0f172a;}
 .key-wrap input{background-image:none;padding-right:60px;
   background:rgba(15,23,42,0.035);}
 .key-toggle{
-  position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  position:absolute;right:6px;top:50%;transform:translateY(-50%);
   background:none;border:none;color:var(--text3);
   font-size:11px;font-weight:600;cursor:pointer;
-  padding:4px 8px;border-radius:6px;
+  padding:8px 10px;min-height:36px;min-width:44px;
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:6px;
   transition:color .15s;font-family:'Inter',sans-serif;
 }
 .key-toggle:hover{color:var(--violet2);}
@@ -467,8 +469,8 @@ select option{background:#ffffff;color:#0f172a;}
   font-size:11px;color:var(--text3);
   margin-top:6px;line-height:1.5;
 }
-.key-hint a{color:var(--violet2);text-decoration:none;}
-.key-hint a:hover{text-decoration:underline;}
+.key-hint a{color:var(--violet2);text-decoration:underline;text-underline-offset:2px;}
+.key-hint a:hover{color:var(--violet);}
 
 /* ── STATUS ── */
 .ai-status{
@@ -718,6 +720,7 @@ select option{background:#ffffff;color:#0f172a;}
   </div>
 </nav>
 
+<main>
 <!-- HERO -->
 <section class="hero">
   <div class="hero-eyebrow">
@@ -1178,6 +1181,7 @@ select option{background:#ffffff;color:#0f172a;}
     </div>
   </div>
 </section>
+</main>
 
 <canvas id="outputCanvas"></canvas>
 
