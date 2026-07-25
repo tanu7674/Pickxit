@@ -19,7 +19,7 @@
   --border2:rgba(15,23,42,0.16);
   --text:#0f172a;
   --text2:#5b6478;
-  --text3:#8891a6;
+  --text3:#64748b;
   --violet:#2563eb;
   --violet2:#2f6fed;
   --violet-bg:rgba(37,99,235,0.08);
@@ -27,8 +27,10 @@
   --cyan:#0ea5b7;
   --cyan-bg:rgba(14,165,183,0.1);
   --green:#16a34a;
+  --green-text:#15803d;
   --green-bg:rgba(22,163,74,0.1);
-  --amber:#e69b0c;
+  --amber:#d97706;
+  --amber-text:#b45309;
   --amber-bg:rgba(230,155,12,0.1);
   --red:#dc2626;
   --red-bg:rgba(220,38,38,0.08);
@@ -308,7 +310,7 @@ nav{
   font-weight:600;letter-spacing:.04em;
 }
 .preview-label .label-badge.orig{background:rgba(15,23,42,0.05);color:var(--text3);}
-.preview-label .label-badge.conv{background:var(--green-bg);color:var(--green);}
+.preview-label .label-badge.conv{background:var(--green-bg);color:var(--green-text);}
 .preview-img-wrap{
   padding:16px;
   display:flex;align-items:center;justify-content:center;
@@ -393,7 +395,7 @@ canvas#outputCanvas{display:none;}
 .btn-ghost:hover:not(:disabled){background:rgba(15,23,42,0.06);border-color:var(--border2);}
 
 /* ── CONFIG PANEL ── */
-.form-group{margin-bottom:22px;}
+.form-group{margin-bottom:22px;border:none;min-width:0;}
 .field-label{
   display:flex;align-items:center;gap:8px;
   font-size:11px;font-weight:700;
@@ -438,6 +440,7 @@ select option{background:#ffffff;color:#0f172a;}
   cursor:pointer;transition:all .15s;
 }
 .size-card:hover{border-color:var(--border2);background:rgba(15,23,42,0.045);}
+.size-card:focus-visible{outline:2px solid var(--violet);outline-offset:2px;}
 .size-card.selected{
   border-color:var(--violet);
   background:var(--violet-bg);
@@ -474,8 +477,8 @@ select option{background:#ffffff;color:#0f172a;}
   align-items:center;gap:10px;
 }
 .ai-status.visible{display:flex;}
-.ai-status.processing{background:var(--amber-bg);border:1px solid rgba(251,191,36,.25);color:var(--amber);}
-.ai-status.success{background:var(--green-bg);border:1px solid rgba(52,211,153,.25);color:var(--green);}
+.ai-status.processing{background:var(--amber-bg);border:1px solid rgba(251,191,36,.25);color:var(--amber-text);}
+.ai-status.success{background:var(--green-bg);border:1px solid rgba(52,211,153,.25);color:var(--green-text);}
 .ai-status.error{background:var(--red-bg);border:1px solid rgba(248,113,113,.25);color:var(--red);}
 .spinner{
   width:14px;height:14px;flex-shrink:0;
@@ -492,7 +495,7 @@ select option{background:#ffffff;color:#0f172a;}
   background:rgba(251,191,36,.06);
   border:1px solid rgba(251,191,36,.2);
   border-radius:var(--r);padding:11px 14px;
-  font-size:12px;color:var(--amber);
+  font-size:12px;color:var(--amber-text);
   margin-bottom:14px;line-height:1.6;
 }
 .req-note.visible{display:block;}
@@ -531,7 +534,7 @@ select option{background:#ffffff;color:#0f172a;}
   font-size:28px;margin-bottom:12px;
   display:block;
 }
-.feat-card h4{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.feat-card h3{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px;}
 .feat-card p{font-size:12px;color:var(--text2);line-height:1.5;}
 
 /* ── DIVIDER ── */
@@ -697,7 +700,7 @@ select option{background:#ffffff;color:#0f172a;}
 <nav>
   <a class="nav-logo" href="#">
     <div class="nav-logo-mark">
-      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8"/>
         <path d="M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8"/>
         <path d="M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16"/>
@@ -716,7 +719,7 @@ select option{background:#ffffff;color:#0f172a;}
 <!-- HERO -->
 <section class="hero">
   <div class="hero-eyebrow">
-    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
     The smarter way to get document photos
   </div>
   <h1>Perfect <span class="grad">Document Photos</span><br>in Seconds</h1>
@@ -732,22 +735,22 @@ select option{background:#ffffff;color:#0f172a;}
 <!-- HOW IT WORKS -->
 <section class="how-section">
   <div class="section-label">How it works</div>
-  <div class="section-title">Three steps to a compliant photo</div>
+  <h2 class="section-title">Three steps to a compliant photo</h2>
   <div class="steps">
     <div class="step-card">
-      <div class="step-icon">📤</div>
+      <div class="step-icon" aria-hidden="true">📤</div>
       <div class="step-num-badge">01</div>
       <h3>Upload Your Photo</h3>
       <p>Drag &amp; drop or browse any portrait image — JPG, PNG, WEBP or BMP. Your file stays in your browser, never uploaded to a server.</p>
     </div>
     <div class="step-card">
-      <div class="step-icon">🎛️</div>
+      <div class="step-icon" aria-hidden="true">🎛️</div>
       <div class="step-num-badge">02</div>
       <h3>Configure Requirements</h3>
       <p>Select the document type (passport, visa, ID), your target country, and the required photo size. Specs are pre-loaded for 50+ countries.</p>
     </div>
     <div class="step-card">
-      <div class="step-icon">✨</div>
+      <div class="step-icon" aria-hidden="true">✨</div>
       <div class="step-num-badge">03</div>
       <h3>Download &amp; Print</h3>
       <p>The AI analyzes your photo, centers your face, corrects brightness, and outputs a perfectly sized 300 DPI image ready to print.</p>
@@ -760,7 +763,7 @@ select option{background:#ffffff;color:#0f172a;}
 <!-- WORKSPACE -->
 <section class="workspace-section" id="workspace">
   <div class="section-label" style="text-align:center;margin-bottom:16px;">Studio</div>
-  <div class="section-title">Start Converting</div>
+  <h2 class="section-title">Start Converting</h2>
 
   <div class="workspace-grid">
 
@@ -770,16 +773,16 @@ select option{background:#ffffff;color:#0f172a;}
       <!-- Upload Card -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">
-            <div class="card-title-icon violet">📁</div>
+          <h3 class="card-title">
+            <div class="card-title-icon violet" aria-hidden="true">📁</div>
             Upload Photo
-          </div>
+          </h3>
           <div class="status-dot on" id="uploadDot"></div>
         </div>
         <div class="card-body">
           <div class="upload-zone" id="uploadZone">
-            <input type="file" id="fileInput" accept="image/*">
-            <div class="upload-zone-icon">📷</div>
+            <input type="file" id="fileInput" accept="image/*" aria-label="Upload a photo (JPG, PNG, WEBP, or BMP)">
+            <div class="upload-zone-icon" aria-hidden="true">📷</div>
             <h3>Drop your photo here</h3>
             <p>or click to browse files</p>
             <div class="formats-row">
@@ -795,10 +798,10 @@ select option{background:#ffffff;color:#0f172a;}
       <!-- Preview Card -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">
-            <div class="card-title-icon cyan">🖼️</div>
+          <h3 class="card-title">
+            <div class="card-title-icon cyan" aria-hidden="true">🖼️</div>
             Preview
-          </div>
+          </h3>
           <div class="status-dot" id="previewDot"></div>
         </div>
         <div class="card-body">
@@ -828,13 +831,13 @@ select option{background:#ffffff;color:#0f172a;}
             </div>
 
             <div class="sheet-preview" id="sheetPreview">
-              <div class="sheet-preview-title">🖨️ Print Sheet Preview</div>
+              <div class="sheet-preview-title"><span aria-hidden="true">🖨️</span> Print Sheet Preview</div>
               <div class="sheet-grid-vis" id="sheetGrid"></div>
               <div class="photo-count" id="photoCount"></div>
             </div>
 
             <button class="btn btn-download-main" id="downloadBtn" onclick="downloadImage()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               Download Converted Photo
             </button>
             <button class="btn btn-ghost" onclick="resetAll()">
@@ -842,7 +845,7 @@ select option{background:#ffffff;color:#0f172a;}
             </button>
           </div>
           <div id="uploadPlaceholder" style="text-align:center;padding:48px 0;color:var(--text3);font-size:14px;">
-            <div style="font-size:32px;margin-bottom:12px;opacity:.4;">🖼️</div>
+            <div style="font-size:32px;margin-bottom:12px;opacity:.4;" aria-hidden="true">🖼️</div>
             Upload a photo above to see preview
           </div>
         </div>
@@ -852,17 +855,17 @@ select option{background:#ffffff;color:#0f172a;}
     <!-- RIGHT COLUMN: Config -->
     <div class="card" style="position:sticky;top:80px;">
       <div class="card-header">
-        <div class="card-title">
-          <div class="card-title-icon violet">⚙️</div>
+        <h3 class="card-title">
+          <div class="card-title-icon violet" aria-hidden="true">⚙️</div>
           Configuration
-        </div>
+        </h3>
       </div>
       <div class="card-body">
 
         <!-- Step 1 -->
         <div class="form-group">
-          <label class="field-label">
-            <span class="step-badge">1</span>
+          <label class="field-label" for="docType">
+            <span class="step-badge" aria-hidden="true">1</span>
             Document Type
           </label>
           <select id="docType" onchange="updateSizeOptions()">
@@ -890,8 +893,8 @@ select option{background:#ffffff;color:#0f172a;}
 
         <!-- Step 2 -->
         <div class="form-group">
-          <label class="field-label">
-            <span class="step-badge">2</span>
+          <label class="field-label" for="country">
+            <span class="step-badge" aria-hidden="true">2</span>
             Country / Region
           </label>
           <select id="country" onchange="updateSizeOptions()">
@@ -920,12 +923,12 @@ select option{background:#ffffff;color:#0f172a;}
         </div>
 
         <!-- Step 3 -->
-        <div class="form-group">
-          <label class="field-label">
-            <span class="step-badge">3</span>
+        <fieldset class="form-group">
+          <legend class="field-label">
+            <span class="step-badge" aria-hidden="true">3</span>
             Photo Size
-          </label>
-          <div class="size-options" id="sizeOptions">
+          </legend>
+          <div class="size-options" id="sizeOptions" role="radiogroup" aria-label="Photo size">
             <div style="grid-column:1/-1;color:var(--text3);font-size:13px;padding:12px 0;text-align:center;line-height:1.6;">
               Select document type and<br>country first
             </div>
@@ -933,23 +936,23 @@ select option{background:#ffffff;color:#0f172a;}
           <div id="customSizeGroup" style="display:none;margin-top:12px;">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
               <div>
-                <div style="font-size:11px;color:var(--text3);margin-bottom:5px;font-weight:600;">Width (mm)</div>
+                <label for="customW" style="display:block;font-size:11px;color:var(--text3);margin-bottom:5px;font-weight:600;">Width (mm)</label>
                 <input type="text" id="customW" placeholder="35" style="">
               </div>
               <div>
-                <div style="font-size:11px;color:var(--text3);margin-bottom:5px;font-weight:600;">Height (mm)</div>
+                <label for="customH" style="display:block;font-size:11px;color:var(--text3);margin-bottom:5px;font-weight:600;">Height (mm)</label>
                 <input type="text" id="customH" placeholder="45" style="">
               </div>
             </div>
           </div>
-        </div>
+        </fieldset>
 
         <!-- API Key -->
         <div class="form-group">
           <label class="field-label" for="apiKey">
-            <span class="step-badge">🔑</span>
+            <span class="step-badge" aria-hidden="true">🔑</span>
             Anthropic API Key
-            <span style="font-size:10px;color:var(--green);background:var(--green-bg);padding:1px 6px;border-radius:4px;margin-left:4px;">Optional</span>
+            <span style="font-size:10px;color:var(--green-text);background:var(--green-bg);padding:1px 6px;border-radius:4px;margin-left:4px;">Optional</span>
           </label>
           <div class="key-wrap">
             <input type="password" id="apiKey" placeholder="sk-ant-api03-…" oninput="checkCanConvert()">
@@ -971,7 +974,7 @@ select option{background:#ffffff;color:#0f172a;}
 
         <!-- Convert Button -->
         <button class="btn btn-convert" id="convertBtn" onclick="convertPhoto()" disabled>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           Convert Photo
         </button>
 
@@ -988,7 +991,7 @@ select option{background:#ffffff;color:#0f172a;}
 <section class="custom-steps-section">
   <div class="section-divider" style="padding:0;margin-bottom:48px;"><div class="divider-line"></div></div>
   <div class="section-label" style="text-align:center;margin-bottom:16px;">Custom Sizing</div>
-  <div class="section-title">Need a Non-Standard Photo Size?</div>
+  <h2 class="section-title">Need a Non-Standard Photo Size?</h2>
   <p style="text-align:center;color:var(--text2);font-size:14px;max-width:560px;margin:-24px auto 40px;line-height:1.7;">
     Not every document fits a pre-loaded spec. Here's how to get an exact custom-size photo for any form, application, or ID card in under a minute.
   </p>
@@ -1023,26 +1026,26 @@ select option{background:#ffffff;color:#0f172a;}
 <section class="features-strip">
   <div class="section-divider" style="padding:0;margin-bottom:48px;"><div class="divider-line"></div></div>
   <div class="section-label" style="text-align:center;margin-bottom:16px;">Why picxit</div>
-  <div class="section-title">Everything you need for official photos</div>
+  <h2 class="section-title">Everything you need for official photos</h2>
   <div class="features-grid">
     <div class="feat-card">
-      <span class="feat-icon">🔒</span>
-      <h4>100% Private</h4>
+      <span class="feat-icon" aria-hidden="true">🔒</span>
+      <h3>100% Private</h3>
       <p>All processing happens in your browser. Your photos are never uploaded to any server.</p>
     </div>
     <div class="feat-card">
-      <span class="feat-icon">🌍</span>
-      <h4>50+ Countries</h4>
+      <span class="feat-icon" aria-hidden="true">🌍</span>
+      <h3>50+ Countries</h3>
       <p>Pre-loaded specs for passports, visas, and IDs across US, UK, India, EU, UAE and more.</p>
     </div>
     <div class="feat-card">
-      <span class="feat-icon">🖨️</span>
-      <h4>Print-Ready</h4>
+      <span class="feat-icon" aria-hidden="true">🖨️</span>
+      <h3>Print-Ready</h3>
       <p>300 DPI output at exact mm dimensions. Includes a sheet preview for 4×6" printing.</p>
     </div>
     <div class="feat-card">
-      <span class="feat-icon">⚡</span>
-      <h4>Instant Results</h4>
+      <span class="feat-icon" aria-hidden="true">⚡</span>
+      <h3>Instant Results</h3>
       <p>No waiting, no signup. Upload and download your official photo in under 10 seconds.</p>
     </div>
   </div>
@@ -1052,12 +1055,12 @@ select option{background:#ffffff;color:#0f172a;}
 <section class="testimonials-section">
   <div class="section-divider" style="padding:0;margin-bottom:48px;"><div class="divider-line"></div></div>
   <div class="section-label" style="text-align:center;margin-bottom:16px;">Trusted by Travelers</div>
-  <div class="section-title">Why People Love picxit</div>
+  <h2 class="section-title">Why People Love picxit</h2>
 
   <div class="trust-stats">
     <div class="trust-stat">
       <div class="trust-stat-num">
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         4.9/5
       </div>
       <div class="trust-stat-label">Average rating</div>
@@ -1074,12 +1077,12 @@ select option{background:#ffffff;color:#0f172a;}
 
   <div class="testimonials-grid">
     <div class="testimonial-card">
-      <div class="testimonial-stars">
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <div class="testimonial-stars" role="img" aria-label="Rated 5 out of 5 stars">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       </div>
       <p class="testimonial-text">Needed a passport photo the night before my appointment. Uploaded a selfie, picked "US Passport," and had a print-ready file in under a minute. Accepted with zero issues.</p>
       <div class="testimonial-author">
@@ -1092,12 +1095,12 @@ select option{background:#ffffff;color:#0f172a;}
     </div>
 
     <div class="testimonial-card">
-      <div class="testimonial-stars">
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <div class="testimonial-stars" role="img" aria-label="Rated 5 out of 5 stars">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       </div>
       <p class="testimonial-text">I loved that I didn't have to upload my photo to a server. Used the custom size option to hit an odd 40×60mm requirement for a visa — worked perfectly on the first try.</p>
       <div class="testimonial-author">
@@ -1110,12 +1113,12 @@ select option{background:#ffffff;color:#0f172a;}
     </div>
 
     <div class="testimonial-card">
-      <div class="testimonial-stars">
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <div class="testimonial-stars" role="img" aria-label="Rated 5 out of 5 stars">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       </div>
       <p class="testimonial-text">Free, fast, and no watermark nonsense. The background replacement feature saved me a trip to a photo booth for my daughter's student ID.</p>
       <div class="testimonial-author">
@@ -1133,43 +1136,43 @@ select option{background:#ffffff;color:#0f172a;}
 <section class="faq-section" id="faq">
   <div class="section-divider" style="padding:0;margin-bottom:48px;"><div class="divider-line"></div></div>
   <div class="section-label" style="text-align:center;margin-bottom:16px;">Questions</div>
-  <div class="section-title">Frequently Asked Questions</div>
+  <h2 class="section-title">Frequently Asked Questions</h2>
   <div class="faq-list">
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <button class="faq-question">Is my photo really kept private?
-        <span class="faq-icon">+</span>
+    <div class="faq-item">
+      <button class="faq-question" id="faq-q-1" aria-expanded="false" aria-controls="faq-a-1" onclick="toggleFaq(this)">Is my photo really kept private?
+        <span class="faq-icon" aria-hidden="true">+</span>
       </button>
-      <div class="faq-answer"><p>Yes. All cropping, resizing, and background processing happens directly in your browser using Canvas and on-device AI. Your photo is never uploaded to a server — unless you choose to enable the optional Claude API face-analysis feature, in which case only that single image is sent directly to Anthropic's API for analysis, using your own key.</p></div>
+      <div class="faq-answer" id="faq-a-1" role="region" aria-labelledby="faq-q-1" aria-hidden="true"><p>Yes. All cropping, resizing, and background processing happens directly in your browser using Canvas and on-device AI. Your photo is never uploaded to a server — unless you choose to enable the optional Claude API face-analysis feature, in which case only that single image is sent directly to Anthropic's API for analysis, using your own key.</p></div>
     </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <button class="faq-question">Do I need an API key to use picxit?
-        <span class="faq-icon">+</span>
+    <div class="faq-item">
+      <button class="faq-question" id="faq-q-2" aria-expanded="false" aria-controls="faq-a-2" onclick="toggleFaq(this)">Do I need an API key to use picxit?
+        <span class="faq-icon" aria-hidden="true">+</span>
       </button>
-      <div class="faq-answer"><p>No. An Anthropic API key is completely optional. Without one, picxit uses a smart auto-crop algorithm that centers and sizes your photo automatically. With a key, an AI vision model fine-tunes the face position and lighting for an extra layer of precision.</p></div>
+      <div class="faq-answer" id="faq-a-2" role="region" aria-labelledby="faq-q-2" aria-hidden="true"><p>No. An Anthropic API key is completely optional. Without one, picxit uses a smart auto-crop algorithm that centers and sizes your photo automatically. With a key, an AI vision model fine-tunes the face position and lighting for an extra layer of precision.</p></div>
     </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <button class="faq-question">What if my country or document isn't listed?
-        <span class="faq-icon">+</span>
+    <div class="faq-item">
+      <button class="faq-question" id="faq-q-3" aria-expanded="false" aria-controls="faq-a-3" onclick="toggleFaq(this)">What if my country or document isn't listed?
+        <span class="faq-icon" aria-hidden="true">+</span>
       </button>
-      <div class="faq-answer"><p>Select "Custom Size" under Document Type and enter your exact width and height in millimeters. This works for any document, form, or ID from any country — see the "Custom Sizing" section above for a step-by-step walkthrough.</p></div>
+      <div class="faq-answer" id="faq-a-3" role="region" aria-labelledby="faq-q-3" aria-hidden="true"><p>Select "Custom Size" under Document Type and enter your exact width and height in millimeters. This works for any document, form, or ID from any country — see the "Custom Sizing" section above for a step-by-step walkthrough.</p></div>
     </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <button class="faq-question">Will my photo be accepted by the issuing authority?
-        <span class="faq-icon">+</span>
+    <div class="faq-item">
+      <button class="faq-question" id="faq-q-4" aria-expanded="false" aria-controls="faq-a-4" onclick="toggleFaq(this)">Will my photo be accepted by the issuing authority?
+        <span class="faq-icon" aria-hidden="true">+</span>
       </button>
-      <div class="faq-answer"><p>picxit follows the official published dimensions and background guidance for each document and country. That said, requirements can change, so we always recommend double-checking the current rules on the issuing authority's website before submitting.</p></div>
+      <div class="faq-answer" id="faq-a-4" role="region" aria-labelledby="faq-q-4" aria-hidden="true"><p>picxit follows the official published dimensions and background guidance for each document and country. That said, requirements can change, so we always recommend double-checking the current rules on the issuing authority's website before submitting.</p></div>
     </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <button class="faq-question">Can I print multiple photos on one sheet?
-        <span class="faq-icon">+</span>
+    <div class="faq-item">
+      <button class="faq-question" id="faq-q-5" aria-expanded="false" aria-controls="faq-a-5" onclick="toggleFaq(this)">Can I print multiple photos on one sheet?
+        <span class="faq-icon" aria-hidden="true">+</span>
       </button>
-      <div class="faq-answer"><p>Yes — after converting, scroll to the Print Sheet Preview to see how many copies fit on a standard 4×6" sheet, laid out and ready to send to any photo printer.</p></div>
+      <div class="faq-answer" id="faq-a-5" role="region" aria-labelledby="faq-q-5" aria-hidden="true"><p>Yes — after converting, scroll to the Print Sheet Preview to see how many copies fit on a standard 4×6" sheet, laid out and ready to send to any photo printer.</p></div>
     </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <button class="faq-question">Is picxit really free to use?
-        <span class="faq-icon">+</span>
+    <div class="faq-item">
+      <button class="faq-question" id="faq-q-6" aria-expanded="false" aria-controls="faq-a-6" onclick="toggleFaq(this)">Is picxit really free to use?
+        <span class="faq-icon" aria-hidden="true">+</span>
       </button>
-      <div class="faq-answer"><p>Yes, converting and downloading photos is completely free with no signup required. The only optional cost is your own Anthropic API usage if you choose to enable AI-guided face analysis.</p></div>
+      <div class="faq-answer" id="faq-a-6" role="region" aria-labelledby="faq-q-6" aria-hidden="true"><p>Yes, converting and downloading photos is completely free with no signup required. The only optional cost is your own Anthropic API usage if you choose to enable AI-guided face analysis.</p></div>
     </div>
   </div>
 </section>
@@ -1297,6 +1300,29 @@ function handleFile(file){
 }
 
 /* ── SIZE OPTIONS ── */
+function sizeCardHTML(id,name,dims,use,selected){
+  return `<div class="size-card${selected?' selected':''}" id="card_${id}" role="radio" aria-checked="${selected}" tabindex="${selected?'0':'-1'}" onclick="selectSpec('${id}')" onkeydown="handleSizeCardKeydown(event,this,'${id}')"><div class="size-name">${name}</div><div class="size-dims">${dims}</div><div class="size-use">${use}</div></div>`;
+}
+
+function handleSizeCardKeydown(e,el,id){
+  const cards=Array.from(document.querySelectorAll('.size-card'));
+  const idx=cards.indexOf(el);
+  if(e.key==='Enter'||e.key===' '){
+    e.preventDefault();
+    if(id==='custom') selectCustom(); else selectSpec(id);
+    return;
+  }
+  if(['ArrowRight','ArrowDown','ArrowLeft','ArrowUp'].includes(e.key)){
+    e.preventDefault();
+    if(cards.length<2)return;
+    const dir=(e.key==='ArrowRight'||e.key==='ArrowDown')?1:-1;
+    const next=cards[(idx+dir+cards.length)%cards.length];
+    next.focus();
+    const nextId=next.id.replace('card_','');
+    if(nextId==='custom') selectCustom(); else selectSpec(nextId);
+  }
+}
+
 function updateSizeOptions(){
   const doc=document.getElementById('docType').value;
   const country=document.getElementById('country').value;
@@ -1312,7 +1338,7 @@ function updateSizeOptions(){
 
   if(doc==='custom'){
     customGroup.style.display='block';
-    container.innerHTML=`<div style="grid-column:1/-1;"><div class="size-card selected" id="card_custom" onclick="selectCustom()"><div class="size-name">Custom Dimensions</div><div class="size-dims">Enter below ↓</div><div class="size-use">Any size you need</div></div></div>`;
+    container.innerHTML=`<div style="grid-column:1/-1;">${sizeCardHTML('custom','Custom Dimensions','Enter below ↓','Any size you need',true)}</div>`;
     selectCustom();reqNote.classList.remove('visible');checkCanConvert();return;
   }
   customGroup.style.display='none';
@@ -1322,10 +1348,10 @@ function updateSizeOptions(){
   }
   const specs=(PHOTO_SPECS[doc]||{})[country]||[];
   if(specs.length===0){
-    container.innerHTML=`<div style="grid-column:1/-1;font-size:12px;color:var(--text3);padding:8px 0;text-align:center;">No specific spec found — using standard 2×2cm</div><div style="grid-column:1/-1;"><div class="size-card selected" id="card_default" onclick="selectSpec('default')"><div class="size-name">Standard 2×2 cm</div><div class="size-dims">20×20mm · 300 DPI</div><div class="size-use">Universal standard</div></div></div>`;
+    container.innerHTML=`<div style="grid-column:1/-1;font-size:12px;color:var(--text3);padding:8px 0;text-align:center;">No specific spec found — using standard 2×2cm</div><div style="grid-column:1/-1;">${sizeCardHTML('default','Standard 2×2 cm','20×20mm · 300 DPI','Universal standard',true)}</div>`;
     selectedSpec=DEFAULT_SPEC;reqNote.classList.remove('visible');checkCanConvert();return;
   }
-  container.innerHTML=specs.map((s,i)=>`<div class="size-card${i===0?' selected':''}" id="card_${s.id}" onclick="selectSpec('${s.id}')"><div class="size-name">${s.name}</div><div class="size-dims">${s.dims} · ${s.dpi} DPI</div><div class="size-use">${s.w}mm × ${s.h}mm</div></div>`).join('');
+  container.innerHTML=specs.map((s,i)=>sizeCardHTML(s.id,s.name,`${s.dims} · ${s.dpi} DPI`,`${s.w}mm × ${s.h}mm`,i===0)).join('');
   selectedSpec=specs[0];
   reqNote.textContent='⚠️ '+specs[0].note;reqNote.classList.add('visible');
   checkCanConvert();
@@ -1336,9 +1362,9 @@ function selectSpec(id){
   const country=document.getElementById('country').value;
   let allSpecs=[];
   if(doc&&country&&PHOTO_SPECS[doc]) allSpecs=(PHOTO_SPECS[doc][country])||[];
-  document.querySelectorAll('.size-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('.size-card').forEach(c=>{c.classList.remove('selected');c.setAttribute('aria-checked','false');c.tabIndex=-1;});
   const card=document.getElementById('card_'+id);
-  if(card) card.classList.add('selected');
+  if(card){card.classList.add('selected');card.setAttribute('aria-checked','true');card.tabIndex=0;}
   selectedSpec=id==='default'?DEFAULT_SPEC:(allSpecs.find(s=>s.id===id)||null);
   if(selectedSpec){
     const rn=document.getElementById('reqNote');
@@ -1348,8 +1374,9 @@ function selectSpec(id){
 }
 
 function selectCustom(){
-  document.querySelectorAll('.size-card').forEach(c=>c.classList.remove('selected'));
-  const card=document.getElementById('card_custom');if(card)card.classList.add('selected');
+  document.querySelectorAll('.size-card').forEach(c=>{c.classList.remove('selected');c.setAttribute('aria-checked','false');c.tabIndex=-1;});
+  const card=document.getElementById('card_custom');
+  if(card){card.classList.add('selected');card.setAttribute('aria-checked','true');card.tabIndex=0;}
   const w=parseFloat(document.getElementById('customW').value)||20;
   const h=parseFloat(document.getElementById('customH').value)||20;
   selectedSpec={id:'custom',name:'Custom',dims:`${w}×${h}mm`,w,h,dpi:300,note:'Custom dimensions.'};
@@ -1543,10 +1570,22 @@ function resetAll(){
 }
 
 /* ── FAQ ACCORDION ── */
-function toggleFaq(item){
+function toggleFaq(btn){
+  const item=btn.closest('.faq-item');
+  const answer=document.getElementById(btn.getAttribute('aria-controls'));
   const wasOpen=item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(f=>f.classList.remove('open'));
-  if(!wasOpen) item.classList.add('open');
+  document.querySelectorAll('.faq-item').forEach(f=>{
+    f.classList.remove('open');
+    const q=f.querySelector('.faq-question');
+    const a=document.getElementById(q.getAttribute('aria-controls'));
+    q.setAttribute('aria-expanded','false');
+    a.setAttribute('aria-hidden','true');
+  });
+  if(!wasOpen){
+    item.classList.add('open');
+    btn.setAttribute('aria-expanded','true');
+    answer.setAttribute('aria-hidden','false');
+  }
 }
 </script>
 </body>
