@@ -694,6 +694,119 @@ select option{background:#ffffff;color:#0f172a;}
 }
 .faq-item.open .faq-answer{max-height:220px;padding:0 22px 18px;}
 .faq-answer p{font-size:13px;color:var(--text2);line-height:1.7;}
+
+/* ── CHAT WIDGET ── */
+.chat-launcher{
+  position:fixed;right:24px;bottom:24px;z-index:500;
+  width:58px;height:58px;border-radius:50%;
+  background:linear-gradient(135deg,#2563eb,#16a34a);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(15,23,42,.22);
+  transition:transform .2s;
+}
+.chat-launcher:hover{transform:scale(1.06);}
+.chat-launcher svg{width:26px;height:26px;stroke:#fff;}
+.chat-launcher .chat-launcher-close{display:none;}
+.chat-launcher.open .chat-launcher-chat{display:none;}
+.chat-launcher.open .chat-launcher-close{display:block;}
+
+.chat-panel{
+  position:fixed;right:24px;bottom:94px;z-index:500;
+  width:360px;max-width:calc(100vw - 48px);
+  height:520px;max-height:calc(100vh - 140px);
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:var(--r-xl);
+  box-shadow:0 20px 60px rgba(15,23,42,.25);
+  display:none;flex-direction:column;overflow:hidden;
+}
+.chat-panel.open{display:flex;}
+.chat-header{
+  padding:16px 18px;background:linear-gradient(135deg,#2563eb,#16a34a);
+  color:#fff;display:flex;align-items:center;gap:10px;
+}
+.chat-header-icon{
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;flex-shrink:0;
+}
+.chat-header-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;}
+.chat-header-sub{font-size:11px;opacity:.85;}
+.chat-messages{
+  flex:1;overflow-y:auto;padding:16px;
+  display:flex;flex-direction:column;gap:12px;
+  background:var(--bg2);
+}
+.chat-msg{max-width:85%;font-size:13px;line-height:1.55;padding:10px 13px;border-radius:14px;}
+.chat-msg.bot{
+  align-self:flex-start;background:var(--surface);
+  border:1px solid var(--border);color:var(--text);
+  border-bottom-left-radius:4px;
+}
+.chat-msg.user{
+  align-self:flex-end;background:var(--violet);
+  color:#fff;border-bottom-right-radius:4px;
+}
+.chat-typing{align-self:flex-start;display:flex;gap:4px;padding:10px 13px;}
+.chat-typing span{
+  width:6px;height:6px;border-radius:50%;background:var(--text3);
+  animation:chatTypingBounce 1.2s infinite ease-in-out;
+}
+.chat-typing span:nth-child(2){animation-delay:.15s;}
+.chat-typing span:nth-child(3){animation-delay:.3s;}
+@keyframes chatTypingBounce{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-4px);opacity:1;}}
+
+.chat-lead-form{
+  padding:12px 16px;border-top:1px solid var(--border);
+  background:var(--surface);display:none;flex-direction:column;gap:8px;
+}
+.chat-lead-form.visible{display:flex;}
+.chat-lead-form p{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:2px;}
+.chat-lead-form input,.chat-lead-form textarea{
+  width:100%;padding:9px 12px;font-size:13px;
+  background:rgba(15,23,42,0.035);border:1px solid var(--border);
+  border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;resize:vertical;
+}
+.chat-lead-form input:focus,.chat-lead-form textarea:focus{outline:none;border-color:var(--violet);}
+.chat-lead-submit{
+  background:var(--violet);color:#fff;border:none;border-radius:8px;
+  padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer;
+  font-family:'Inter',sans-serif;
+}
+.chat-lead-submit:hover{background:#1d4ed8;}
+.chat-lead-note{font-size:11px;color:var(--text3);text-align:center;}
+
+.chat-input-row{
+  display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);
+  background:var(--surface);
+}
+.chat-input-row input{
+  flex:1;padding:10px 14px;font-size:13px;
+  background:rgba(15,23,42,0.035);border:1px solid var(--border);
+  border-radius:20px;color:var(--text);font-family:'Inter',sans-serif;
+}
+.chat-input-row input:focus{outline:none;border-color:var(--violet);}
+.chat-send-btn{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  background:var(--violet);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.chat-send-btn:hover{background:#1d4ed8;}
+.chat-send-btn svg{width:16px;height:16px;stroke:#fff;}
+.chat-footer-link{
+  text-align:center;font-size:11px;color:var(--text3);
+  padding:6px 0 10px;
+}
+.chat-footer-link button{
+  background:none;border:none;color:var(--violet2);
+  text-decoration:underline;cursor:pointer;font-size:11px;font-family:'Inter',sans-serif;
+}
+@media(max-width:480px){
+  .chat-panel{right:12px;bottom:82px;width:calc(100vw - 24px);}
+  .chat-launcher{right:16px;bottom:16px;}
+}
 </style>
 </head>
 <body>
@@ -952,8 +1065,8 @@ select option{background:#ffffff;color:#0f172a;}
           </div>
         </fieldset>
 
-        <!-- API Key -->
-        <div class="form-group">
+        <!-- API Key (hidden from UI) -->
+        <div class="form-group" style="display:none;">
           <label class="field-label" for="apiKey">
             <span class="step-badge" aria-hidden="true">🔑</span>
             Anthropic API Key
@@ -984,8 +1097,8 @@ select option{background:#ffffff;color:#0f172a;}
         </button>
 
         <div class="info-box">
-          <strong>AI-Guided Crop Engine</strong><br>
-          With an API key, Claude vision detects your face position and adjusts brightness automatically. Without one, smart center-crop is used — still great results.
+          <strong>Smart Crop Engine</strong><br>
+          picxit automatically centers your face, corrects the crop, and outputs a print-ready photo sized to spec — all in your browser.
         </div>
       </div>
     </div>
@@ -1147,13 +1260,13 @@ select option{background:#ffffff;color:#0f172a;}
       <button class="faq-question" id="faq-q-1" aria-expanded="false" aria-controls="faq-a-1" onclick="toggleFaq(this)">Is my photo really kept private?
         <span class="faq-icon" aria-hidden="true">+</span>
       </button>
-      <div class="faq-answer" id="faq-a-1" role="region" aria-labelledby="faq-q-1" aria-hidden="true"><p>Yes. All cropping, resizing, and background processing happens directly in your browser using Canvas and on-device AI. Your photo is never uploaded to a server — unless you choose to enable the optional Claude API face-analysis feature, in which case only that single image is sent directly to Anthropic's API for analysis, using your own key.</p></div>
+      <div class="faq-answer" id="faq-a-1" role="region" aria-labelledby="faq-q-1" aria-hidden="true"><p>Yes. All cropping, resizing, and background processing happens directly in your browser using Canvas — your photo is never uploaded to a server or seen by anyone else.</p></div>
     </div>
     <div class="faq-item">
-      <button class="faq-question" id="faq-q-2" aria-expanded="false" aria-controls="faq-a-2" onclick="toggleFaq(this)">Do I need an API key to use picxit?
+      <button class="faq-question" id="faq-q-2" aria-expanded="false" aria-controls="faq-a-2" onclick="toggleFaq(this)">Do I need an account or API key to use picxit?
         <span class="faq-icon" aria-hidden="true">+</span>
       </button>
-      <div class="faq-answer" id="faq-a-2" role="region" aria-labelledby="faq-q-2" aria-hidden="true"><p>No. An Anthropic API key is completely optional. Without one, picxit uses a smart auto-crop algorithm that centers and sizes your photo automatically. With a key, an AI vision model fine-tunes the face position and lighting for an extra layer of precision.</p></div>
+      <div class="faq-answer" id="faq-a-2" role="region" aria-labelledby="faq-q-2" aria-hidden="true"><p>No. picxit works instantly with no signup and no API key. It uses a smart auto-crop engine that centers and sizes your photo automatically, right in your browser.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-question" id="faq-q-3" aria-expanded="false" aria-controls="faq-a-3" onclick="toggleFaq(this)">What if my country or document isn't listed?
@@ -1184,6 +1297,41 @@ select option{background:#ffffff;color:#0f172a;}
 </main>
 
 <canvas id="outputCanvas"></canvas>
+
+<!-- AI CHAT WIDGET -->
+<button class="chat-launcher" id="chatLauncher" onclick="toggleChat()" aria-expanded="false" aria-controls="chatPanel" aria-label="Open chat with picxit support">
+  <svg class="chat-launcher-chat" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  <svg class="chat-launcher-close" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+</button>
+
+<div class="chat-panel" id="chatPanel" role="dialog" aria-modal="false" aria-label="Chat with picxit support">
+  <div class="chat-header">
+    <div class="chat-header-icon" aria-hidden="true">💬</div>
+    <div>
+      <div class="chat-header-title">picxit support</div>
+      <div class="chat-header-sub">Usually replies in a few minutes</div>
+    </div>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot">Hi! I'm the picxit assistant. Ask me anything about getting your document photo — sizes, countries, privacy, custom dimensions, whatever you need.</div>
+  </div>
+  <div class="chat-lead-form" id="chatLeadForm">
+    <p>Leave your email and question and the picxit team will follow up personally.</p>
+    <input type="email" id="chatLeadEmail" placeholder="you@example.com" required>
+    <textarea id="chatLeadQuery" rows="3" placeholder="What do you need help with?" required></textarea>
+    <button class="chat-lead-submit" onclick="submitChatLead()">Send to picxit team</button>
+    <div class="chat-lead-note" id="chatLeadStatus"></div>
+  </div>
+  <div class="chat-input-row" id="chatInputRow">
+    <input type="text" id="chatInput" placeholder="Type your question…" onkeydown="if(event.key==='Enter')sendChatMessage()" aria-label="Type your message">
+    <button class="chat-send-btn" onclick="sendChatMessage()" aria-label="Send message">
+      <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+  <div class="chat-footer-link">
+    Prefer email? <button onclick="showLeadForm()">Leave your question here</button>
+  </div>
+</div>
 
 <script>
 /* ── DATA ── */
@@ -1591,6 +1739,114 @@ function toggleFaq(btn){
     item.classList.add('open');
     btn.setAttribute('aria-expanded','true');
     answer.setAttribute('aria-hidden','false');
+  }
+}
+
+/* ── AI CHAT WIDGET ── */
+// TODO: replace with your deployed Cloudflare Worker URL (see picxit-chat-worker.js)
+const CHAT_WORKER_URL = 'https://picxit-chat.YOUR-SUBDOMAIN.workers.dev';
+// TODO: replace with your Formspree (or similar) form endpoint for lead capture
+const CHAT_LEAD_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+
+let chatHistory=[];
+let chatOpen=false;
+
+function toggleChat(){
+  chatOpen=!chatOpen;
+  document.getElementById('chatPanel').classList.toggle('open',chatOpen);
+  document.getElementById('chatLauncher').classList.toggle('open',chatOpen);
+  document.getElementById('chatLauncher').setAttribute('aria-expanded',String(chatOpen));
+  if(chatOpen) document.getElementById('chatInput').focus();
+}
+
+function appendChatMsg(role,text){
+  const wrap=document.getElementById('chatMessages');
+  const div=document.createElement('div');
+  div.className='chat-msg '+(role==='user'?'user':'bot');
+  div.textContent=text;
+  wrap.appendChild(div);
+  wrap.scrollTop=wrap.scrollHeight;
+}
+
+function showTyping(){
+  const wrap=document.getElementById('chatMessages');
+  const t=document.createElement('div');
+  t.className='chat-typing';t.id='chatTypingIndicator';
+  t.innerHTML='<span></span><span></span><span></span>';
+  wrap.appendChild(t);
+  wrap.scrollTop=wrap.scrollHeight;
+}
+function hideTyping(){
+  const t=document.getElementById('chatTypingIndicator');
+  if(t) t.remove();
+}
+
+async function sendChatMessage(){
+  const input=document.getElementById('chatInput');
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  appendChatMsg('user',text);
+  chatHistory.push({role:'user',content:text});
+  showTyping();
+
+  try{
+    const res=await fetch(CHAT_WORKER_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages:chatHistory})
+    });
+    const data=await res.json();
+    hideTyping();
+    if(!res.ok||data.error){
+      appendChatMsg('bot',"Sorry, I'm having trouble connecting right now. You can leave your email and question below instead.");
+      showLeadForm();
+      return;
+    }
+    appendChatMsg('bot',data.reply);
+    chatHistory.push({role:'assistant',content:data.reply});
+  }catch(err){
+    hideTyping();
+    appendChatMsg('bot',"Sorry, I'm having trouble connecting right now. You can leave your email and question below instead.");
+    showLeadForm();
+  }
+}
+
+function showLeadForm(){
+  document.getElementById('chatLeadForm').classList.add('visible');
+  const lastUserMsg=[...chatHistory].reverse().find(m=>m.role==='user');
+  if(lastUserMsg) document.getElementById('chatLeadQuery').value=lastUserMsg.content;
+  document.getElementById('chatLeadEmail').focus();
+}
+
+async function submitChatLead(){
+  const email=document.getElementById('chatLeadEmail').value.trim();
+  const query=document.getElementById('chatLeadQuery').value.trim();
+  const status=document.getElementById('chatLeadStatus');
+  if(!email||!query){
+    status.textContent='Please fill in both fields.';
+    return;
+  }
+  status.textContent='Sending…';
+  try{
+    const res=await fetch(CHAT_LEAD_ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        email,
+        query,
+        conversation:chatHistory.map(m=>`${m.role}: ${m.content}`).join('\n')
+      })
+    });
+    if(res.ok){
+      status.textContent="Thanks! We'll get back to you soon.";
+      document.getElementById('chatLeadEmail').value='';
+      document.getElementById('chatLeadQuery').value='';
+    }else{
+      status.textContent="Couldn't send — please try again.";
+    }
+  }catch(err){
+    status.textContent="Couldn't send — please try again.";
   }
 }
 </script>
